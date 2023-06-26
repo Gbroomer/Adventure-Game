@@ -50,8 +50,8 @@ body {
     position: absolute;
     left: 40px;
     bottom: 1;
-    top: 350px;
-    width: 250px;
+    top: 240px;
+    width: 220px;
     height: 800px;
     margin-top: 1;
     display: flex;
@@ -286,4 +286,16 @@ body {
     padding: 25px;
     width: 1000px;
     margin: 0 auto;
+}
+.game-screen {
+  background-color: #778899;
+  border: 10px solid rgb(8, 8, 8);
+  color: #ffffff;
+  position: relative;
+  text-align: center;
+  top: 150px;
+  border-radius: 45px;
+  padding: 45px;
+  width: 400px;
+  margin: 0 auto;
 }

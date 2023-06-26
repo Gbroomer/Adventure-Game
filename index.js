@@ -21,6 +21,7 @@ const charSearch = () => {
                 addChar.textContent = `${fetchPlayer.name}: Str(${fetchPlayer.str}), Dex(${fetchPlayer.dex}), Con(${fetchPlayer.con}), Wis(${fetchPlayer.wis}), Int(${fetchPlayer.int}), Cha(${fetchPlayer.cha})`
 
                 const addConfirm = document.createElement("button")
+                addConfirm.id = "confirm-character-button"
                 addConfirm.className = "btn btn-pushable btn-pushable--black"
                 addConfirm.textContent = "Confirm Character?"
                 addConfirm.style.width = "150px"
@@ -29,9 +30,38 @@ const charSearch = () => {
                     generateCharacter(fetchPlayer)
                 })
                 listCharacter.append(addChar, addConfirm)
+
+                startGameFromCharacterSubmission()
             })
         })
 }
+
+//Confirm character selection from db.json and start game (remove stat selection box and character-generator, create new screen)
+
+function startGameFromCharacterSubmission(){
+    document.getElementById("confirm-character-button").addEventListener("click", (e) => {
+        e.preventDefault(); 
+        document.getElementById("initialized-character-generator").remove();
+
+        const newGameScreen = document.createElement("div")
+        newGameScreen.id = "game-screen"
+        document.body.appendChild(newGameScreen)
+
+        const startGameForm = document.createElement("form")
+        startGameForm.id = "game-dialogue"
+        startGameForm.className = "game-screen"
+        startGameForm.textContent = `Hello, ${fetchPlayer.name}. You have awoken in a dark cell. It is dimly lit with torches on the wall.`
+
+        document.getElementById("game-screen").appendChild(startGameForm)
+
+
+
+    })
+}
+
+
+
+
 //Takes an object of character information, either from the db.json or from the (eventually) character creation section and adds their stats to the sidebar)
 const generateCharacter = (pcInfo) => {
 
