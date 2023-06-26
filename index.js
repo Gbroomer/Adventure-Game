@@ -388,7 +388,11 @@ function startGameFromCharacterSubmission(){
         gameSubmitButton.type = "submit"
         gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameDialogueInput)
+<<<<<<< HEAD
 
+=======
+        startGameForm.appendChild(gameSubmitButton)
+>>>>>>> b7249d803b0cd9af0ed82603cedc3acf9eacac2a
         })
 
 }
