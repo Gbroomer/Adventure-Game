@@ -388,11 +388,6 @@ function startGameFromCharacterSubmission(){
         gameSubmitButton.type = "submit"
         gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameDialogueInput)
-
-        const gameSubmitButton = document.createElement("input")
-        gameSubmitButton.className = "submit-button"
-        gameSubmitButton.type = "submit"
-        gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameSubmitButton)
         })
         
