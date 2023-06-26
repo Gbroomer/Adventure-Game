@@ -389,13 +389,8 @@ function startGameFromCharacterSubmission(){
         gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameDialogueInput)
 
-        const gameSubmitButton = document.createElement("input")
-        gameSubmitButton.className = "submit-button"
-        gameSubmitButton.type = "submit"
-        gameSubmitButton.value = "Proceed"
-        startGameForm.appendChild(gameSubmitButton)
         })
-        
+
 }
 async function search(argument) {
     const res = await fetch(argument)
