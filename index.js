@@ -63,8 +63,6 @@ function startGameFromCharacterSubmission(){
 }
 
 
-
-
 //Takes an object of character information, either from the db.json or from the (eventually) character creation section and adds their stats to the sidebar)
 const generateCharacter = (pcInfo) => {
 
