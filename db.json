@@ -23,11 +23,167 @@
       "off-hand": "empty",
       "armor": "empty",
       "ranged": "empty",
+      "gold": 0,
+      "key": 0,
       "spell-1": "firebolt",
       "spell-2": "empty",
       "spell-3": "empty",
       "spell-4": "empty",
       "spell-5": "empty"
+    }
+  ],
+
+
+  "Events": [
+    {
+      "1": "Monsters",
+      "2": "NPC",
+      "3": "Puzzle",
+      "4": "Treasure"
+    }
+  ], 
+
+
+  "Monsters": [
+    {
+      "id": 1,
+      "name": "Goblin",
+      "Hp": 5,
+      "AC": 13,
+      "str-mod": -1,
+      "dex-mod": 3,
+      "con-mod": 1,
+      "wis-mod": 1,
+      "int-mod": -2,
+      "cha-mod": -1,
+      "item": 1,
+      "gold": true,
+      "description": "A foul green monster stands about 4 feet tall in front of you. His odor is that of spoiled meat and fecal matter. He has a scimitar in hand and begins to charge",
+      "prelude": "A strange smell of waste comes from this direction. There are high pitched giggles and snarls. Something just sneezed violently.",
+      "attack": "The Goblin swings its scimitar wildly in your direction!"
+    },
+    {
+      "id": 2,
+      "name": "Zombie",
+      "Hp": 8,
+      "AC": 7,
+      "str-mod": 2,
+      "dex-mod": -3,
+      "con-mod": 3,
+      "wis-mod": -4,
+      "int-mod": -4,
+      "cha-mod": -4,
+      "item": null,
+      "gold": true,
+      "description": "A mass of rotten skin, explosed muscle and protruding bones stands before you. Whoever this person was before, they are now an undead abomination.",
+      "prelude": "The smell of rotten flesh accompanies low, gutteral moans. Something is shambling in the room next to you",
+      "attack": "The Zombie charges you, attempting to slam and bite you with what remains of its jaw."
+    }
+  ],
+
+  "NPC": [
+    {
+      "id": 1,
+      "name": "Gertrude",
+      "HP": 4,
+      "AC": 10,
+      "str-mod": 1,
+      "dex-mod": 0,
+      "con-mod": 0,
+      "wis-mod": 3,
+      "int-mod": 2,
+      "cha-mod": 1,
+      "item": 2,
+      "gold": true,
+      "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
+      "prelude": "The sounds of someone crying is coming from this direction.",
+      "attack": "The woman swings wildly at you with a hidden dagger!",
+      "option-1": "calm",
+      "option-1-test": "wis",
+      "option-2": "seduce",
+      "option-2-test": "cha",
+      "option-1-good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
+      "option-1-bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
+      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here.",
+      "option-2-bad": "You disgust me. Leave now before I make you regret your advances."
+    }
+  ],
+  
+  "Puzzle": [
+    // {
+    //   "id": 1,
+    //   "name": "Prison Cell",
+    //   "gold": false,
+    //   "description": "You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do? You could Look under the bed, 'Use' the bucket... or Leave.",
+    //   "prelude": "",
+    //   "hint": 
+    // },
+    {
+      "id": 2,
+      "name": "Magic Mirror",
+      "gold": true,
+      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
+      "prelude": "Looking in this direction sends back a reflection of yourself",
+      "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
+      "answer": "horseshoe",
+      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
+      "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
+    }
+  ],
+
+  "Treasure": [
+    {
+      "id": 1,
+      "name": "Treasure Chest",
+      "item": 3,
+      "gold": 25,
+      "description": "A large, very heavy trunk sits in front of you. There is a lock on it. What would you like to do? You could Bash it open, Leave it alone, try to Pick the lock, or use a Key if you have one.",
+      "option-1": "bash",
+      "option-1-test": "str",
+      "option-2": "pick",
+      "option-2-test": "dex",
+      "option-3": "Key",
+      "option-3-test": "key",
+      "option-1-good": "You manage to successfully destroy the lock, recieving the truck's content.",
+      "option-1-bad": "You completely fail to destroy the lock, and now you've hurt yourself.",
+      "option-2-good": "You manage to finagle the lock open, recieving the truck's content.",
+      "option-2-bad": "After trying for several minutes, you fail to pick the lock.",
+      "option-3-good": "The key fits! you recieve the truck's content.",
+      "option-3-bad": "This should not fire."
+    }
+  ],
+
+  "Items": [
+    {
+      "id": 1,
+      "name": "Scimitar",
+      "modifier": 1,
+      "stat": "str"
+    },
+    {
+    "id": 2,
+    "name": "Dagger",
+    "modifier": 1,
+    "stat": "dex"
+    },
+    {
+      "id": 3,
+      "name": "Leather Armor",
+      "modifier": 2,
+      "stat": "AC"
+    },
+    {
+      "id": 4,
+      "name": "key",
+      "modifier": 1,
+      "stat": "key"
+    }
+  ],
+  "Location": [
+    {
+      "id": 1,
+      "name": "Prison Cell",
+      ""
     }
   ]
 }

@@ -335,6 +335,8 @@ const initCharMaker = () => {
                 "off-hand": "empty",
                 "armor": "empty",
                 "ranged": "empty",
+                "gold": 0,
+                "key": 0,
                 "spell-1": "firebolt",
                 "spell-2": "empty",
                 "spell-3": "empty",
