@@ -28,6 +28,7 @@ const charSearch = () => {
                 addConfirm.addEventListener("click", () => {
                     if(fetchPlayer){
                         generateCharacter(fetchPlayer)
+                        startGameFromCharacterSubmission()
                     } else {
                         alert("character not found")
                     }
@@ -36,16 +37,16 @@ const charSearch = () => {
             })
         })
 }
-async function postCharacter(newChar) {
-    await fetch("http://localhost:3000/characters", {
+function postCharacter() {
+    fetch("http://localhost:3000/characters", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         },
-        body: JSON.stringify(newChar)
+        body: JSON.stringify(playerCharacter)
     }) 
-    .then(console.log(newChar))
+    .then(console.log(playerCharacter))
 }
 //Takes an object of character information, either from the db.json or from the (eventually) character creation section and adds their stats to the sidebar)
 const generateCharacter = (pcInfo) => {
@@ -97,6 +98,8 @@ async function fetchChar(input) {
 
         if(fetchPlayer) {
             return fetchPlayer;
+        } else {
+            return
         }
 } 
 //Initialize the character creation menu on the front page
@@ -338,15 +341,14 @@ const initCharMaker = () => {
                 "spell-4": "empty",
                 "spell-5": "empty"
             }
-            fetchChar(generatedCharacter.name)
-            .then(res => {
+            fetchChar(generatedCharacter.name.toLowerCase()).then(res => {
+                console.log(fetchPlayer)
                 if(fetchPlayer === undefined) {
                     playerCharacter = generatedCharacter
                     console.log(generatedCharacter)
                     generateCharacter(generatedCharacter)
                     postCharacter(playerCharacter)
-                    const clearCenter = document.getElementById("initialized-character-generator")
-                    clearCenter.innerHTML = ""
+                    startGameFromCharacterSubmission()
                 } else {
                     alert("A character with this name already exists")
                 }
@@ -356,6 +358,25 @@ const initCharMaker = () => {
         }
     })
 }
+function startGameFromCharacterSubmission(){
+        document.getElementById("initialized-character-generator").remove();
+
+        const newGameScreen = document.createElement("div")
+        newGameScreen.id = "game-screen"
+        document.body.appendChild(newGameScreen)
+
+        const startGameForm = document.createElement("p")
+        startGameForm.id = "game-dialogue"
+        startGameForm.className = "game-screen"
+        startGameForm.textContent = `Hello, ${playerCharacter.name}. You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do?`
+        newGameScreen.appendChild(startGameForm)
+
+        const gameDialogueInput = document.createElement("input")
+        gameDialogueInput.className = 'submit-button'
+        gameDialogueInput.type = 'text'
+        startGameForm.appendChild(gameDialogueInput)
+    }
 
 initCharMaker()
 charSearch()
+

@@ -287,3 +287,15 @@ body {
     width: 1000px;
     margin: 0 auto;
 }
+#game-screen {
+  background-color: #778899;
+  border: 10px solid rgb(8, 8, 8);
+  color: #ffffff;
+  position: relative;
+  text-align: center;
+  top: 150px;
+  border-radius: 45px;
+  padding: 45px;
+  width: 400px;
+  margin: 0 auto;
+}
