@@ -110,14 +110,14 @@
   ],
   
   "Puzzle": [
-    // {
-    //   "id": 1,
-    //   "name": "Prison Cell",
-    //   "gold": false,
-    //   "description": "You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do? You could Look under the bed, 'Use' the bucket... or Leave.",
-    //   "prelude": "",
-    //   "hint": 
-    // },
+    {
+      "id": 1,
+      "name": "Prison Cell",
+      "gold": false,
+      "description": "You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do? You could Look under the bed, 'Use' the bucket... or Leave.",
+      "prelude": "",
+      "hint": ""
+    },
     {
       "id": 2,
       "name": "Magic Mirror",
@@ -182,8 +182,7 @@
   "Location": [
     {
       "id": 1,
-      "name": "Prison Cell",
-      ""
+      "name": "Prison Cell"
     }
   ]
 }
