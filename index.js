@@ -1,6 +1,6 @@
 
 //Currently the only two global variables that hold character information. Likely we can use more for things like Monsters and location data
-let fetchPlayer, playerCharacter;
+let fetchPlayer, playerCharacter, currentLocation, locationLeft, locationRight, locationForward;
 
 //Handles the searchbar functionality
 
@@ -366,6 +366,12 @@ function startGameFromCharacterSubmission(){
         const newGameScreen = document.createElement("div")
         newGameScreen.id = "game-screen"
         document.body.appendChild(newGameScreen)
+        
+        
+        search("http://localhost:3000/Treasure/2").then((data) => {
+
+        currentLocation = data
+        console.log(currentLocation)
 
         const startGameForm = document.createElement("p")
         startGameForm.id = "game-dialogue"
@@ -383,9 +389,15 @@ function startGameFromCharacterSubmission(){
         gameSubmitButton.type = "submit"
         gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameSubmitButton)
+        })
+        
+}
+async function search(argument) {
+    const res = await fetch(argument)
+    const results = await res.json();
+    return results;
+}
 
-    }
-async function fetchLocation(id)
 initCharMaker()
 charSearch()
 

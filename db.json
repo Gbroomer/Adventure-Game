@@ -140,6 +140,25 @@
       "option-2-bad": "After trying for several minutes, you fail to pick the lock.",
       "option-3-good": "The key fits! you recieve the truck's content.",
       "option-3-bad": "This should not fire."
+    },
+    {
+      "id": 2,
+      "name": "Prison Cell",
+      "item": 4,
+      "gold": 2,
+      "description": "You awake to find yourself in a prison cell, the door left ajar. You have no memory of how you got to this place. Inside the room there is a bucket and your bunk bed. What would you like to do? You can Look inside of the bucket, Peek under the bed, Leave, or 'Use' the bucket.",
+      "option-1": "look",
+      "option-1-test": "wis",
+      "option-2": "peek",
+      "option-2-test": "wis",
+      "option-3": "use",
+      "option-3-test": "con",
+      "option-1-good": "You spot something shiny through the refuse! You dig on in and find a key",
+      "option-1-bad": "You see something unpleasant. This bucket has been used very recently and frequently",
+      "option-2-good": "Under the bed someone stashed what looks like a bag of coin tucked inside the bedframe",
+      "option-2-bad": "You find a dead rat and a lot of dust.",
+      "option-3-good": "An incredible use of your time. You feel 5 pounds lighter.",
+      "option-3-bad": "You strain and pull something as you squat awkwardly over the bucket."
     }
   ],
 
