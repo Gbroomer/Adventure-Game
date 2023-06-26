@@ -47,15 +47,18 @@ function startGameFromCharacterSubmission(){
         newGameScreen.id = "game-screen"
         document.body.appendChild(newGameScreen)
 
-        const startGameForm = document.createElement("form")
+        const startGameForm = document.createElement("p")
         startGameForm.id = "game-dialogue"
         startGameForm.className = "game-screen"
-        startGameForm.textContent = `Hello, ${fetchPlayer.name}. You have awoken in a dark cell. It is dimly lit with torches on the wall.`
+        startGameForm.textContent = `Hello, ${fetchPlayer.name}. You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do?`
+        newGameScreen.appendChild(startGameForm)
 
-        document.getElementById("game-screen").appendChild(startGameForm)
-
-
-
+        const gameDialogueInput = document.createElement("input")
+        gameDialogueInput.className = 'submit-button'
+        gameDialogueInput.type = 'text'
+        startGameForm.appendChild(gameDialogueInput)
+        
+        
     })
 }
 
