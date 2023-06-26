@@ -56,7 +56,13 @@ function startGameFromCharacterSubmission(){
         const gameDialogueInput = document.createElement("input")
         gameDialogueInput.className = 'submit-button'
         gameDialogueInput.type = 'text'
+        const gameDialogueSubmit = document.createElement("input")
+        gameDialogueSubmit.className = "submit-button"
+        gameDialogueSubmit.type = "submit"
+        gameDialogueSubmit.value = "Submit"
         startGameForm.appendChild(gameDialogueInput)
+        startGameForm.appendChild(gameDialogueSubmit)
+        
         
         
     })
