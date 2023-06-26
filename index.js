@@ -370,15 +370,22 @@ function startGameFromCharacterSubmission(){
         const startGameForm = document.createElement("p")
         startGameForm.id = "game-dialogue"
         startGameForm.className = "game-screen"
-        startGameForm.textContent = `Hello, ${playerCharacter.name}. You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do?`
+        startGameForm.textContent = `Hello, ${playerCharacter.name}. `
         newGameScreen.appendChild(startGameForm)
 
         const gameDialogueInput = document.createElement("input")
         gameDialogueInput.className = 'submit-button'
         gameDialogueInput.type = 'text'
         startGameForm.appendChild(gameDialogueInput)
-    }
 
+        const gameSubmitButton = document.createElement("input")
+        gameSubmitButton.className = "submit-button"
+        gameSubmitButton.type = "submit"
+        gameSubmitButton.value = "Proceed"
+        startGameForm.appendChild(gameSubmitButton)
+
+    }
+async function fetchLocation(id)
 initCharMaker()
 charSearch()
 

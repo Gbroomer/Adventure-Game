@@ -33,7 +33,6 @@
     }
   ],
 
-
   "Events": [
     {
       "1": "Monsters",
@@ -42,7 +41,6 @@
       "4": "Treasure"
     }
   ], 
-
 
   "Monsters": [
     {
@@ -110,16 +108,8 @@
   ],
   
   "Puzzle": [
-    // {
-    //   "id": 1,
-    //   "name": "Prison Cell",
-    //   "gold": false,
-    //   "description": "You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do? You could Look under the bed, 'Use' the bucket... or Leave.",
-    //   "prelude": "",
-    //   "hint": 
-    // },
     {
-      "id": 2,
+      "id": 1,
       "name": "Magic Mirror",
       "gold": true,
       "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
@@ -179,11 +169,11 @@
       "stat": "key"
     }
   ],
+
   "Location": [
     {
       "id": 1,
-      "name": "Prison Cell",
-      ""
+      "name": "Prison Cell"
     }
   ]
 }
