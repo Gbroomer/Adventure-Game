@@ -360,6 +360,7 @@ const initCharMaker = () => {
         }
     })
 }
+//This function starts the game from the Replay a Previous Character submission. 
 function startGameFromCharacterSubmission(){
         document.getElementById("initialized-character-generator").remove();
 
@@ -382,6 +383,10 @@ function startGameFromCharacterSubmission(){
         const gameDialogueInput = document.createElement("input")
         gameDialogueInput.className = 'submit-button'
         gameDialogueInput.type = 'text'
+        const gameSubmitButton = document.createElement("input")
+        gameSubmitButton.className = "submit-button"
+        gameSubmitButton.type = "submit"
+        gameSubmitButton.value = "Proceed"
         startGameForm.appendChild(gameDialogueInput)
 
         const gameSubmitButton = document.createElement("input")
@@ -397,6 +402,9 @@ async function search(argument) {
     const results = await res.json();
     return results;
 }
+
+
+
 
 initCharMaker()
 charSearch()
