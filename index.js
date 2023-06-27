@@ -12,10 +12,12 @@ const charSearch = () => {
     const charSearchForm = document.getElementById("character-search")
     charSearchForm.addEventListener("submit", (e) => {
         e.preventDefault()
-
+        console.log('test')
         const charSearchInput = document.getElementById("char-search").value
+        console.log(charSearchInput)
 
         fetchChar(charSearchInput.toLowerCase()).then(() => {
+            console.log(fetchPlayer)
             if (fetchPlayer) {
 
                 const listCharacter = document.getElementById("characters")
@@ -526,7 +528,7 @@ const runNextRooms = (gameText) => {
 
 }
 //Runs the Combat Scenario (currently not functional)
-const runCombat = (gameDialogueInput, gameText, room, gameText, gameScreen, startGameForm) => {
+const runCombat = (gameDialogueInput, gameText, room, gameScreen, startGameForm) => {
     startGameForm.removeEventListener()
     gameText.textContent = 
     startGameForm.addEventListener("submit", e => {
@@ -666,7 +668,7 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
 
             } if (gameDialogueInput.value.toLowerCase() === "attack") {
 
-                runCombat(gameDialogueInput, gameText, room, gameText, gameScreen, startGameForm)
+                runCombat(gameDialogueInput, gameText, room, gameScreen, startGameForm)
             } if (lookSwitch === true) {
 
                 if (gameDialogueInput.value.toLowerCase() === "left") {
@@ -748,9 +750,36 @@ function gameOver(gameText) {
     gameText.textContent = `GAME OVER! You have died.`
     document.getElementById('input-form').removeEventListener()
 }
-
+function characterInventory() {
+    document.addEventListener("keydown", function (e) { 
+        if (e.key == "Shift") {
+            document.getElementById("potions").textContent = `Potions: ${playerCharacter["potions"]}`
+            document.getElementById("main-hand").textContent = `Main-hand: ${playerCharacter["main-hand"]}`
+            document.getElementById("off-hand").textContent = `Off-hand: ${playerCharacter["off-hand"]}`
+            document.getElementById("armor").textContent = `Armor: ${playerCharacter["armor"]}`
+            document.getElementById("ranged").textContent = `Ranged: ${playerCharacter["ranged"]}`
+            document.getElementById("gold").textContent = `Gold: ${playerCharacter["gold"]}`
+            document.getElementById("key").textContent = `Key: ${playerCharacter["key"]}`
+            document.getElementById("spell-1").textContent = `Spell 1: ${playerCharacter["spell-1"]}`
+            document.getElementById("spell-2").textContent = `Spell 2: ${playerCharacter["spell-2"]}`
+            document.getElementById("spell-3").textContent = `Spell 3: ${playerCharacter["spell-3"]}`
+            document.getElementById("spell-4").textContent = `Spell 4: ${playerCharacter["spell-4"]}`
+            document.getElementById("spell-5").textContent = `Spell 5: ${playerCharacter["spell-5"]}`
+    
+            let invOverlay = document.getElementById("inventory")
+            
+            if (invOverlay.style.display == 'none') {
+                invOverlay.style.display = 'block';
+            } else {
+                invOverlay.style.display = 'none';
+            }
+        }
+    })
+}
+characterInventory()
 initCharMaker()
 charSearch()
 generateAvailableRooms()
 // "i" keydown event to display inventory of main hand, off hand, armor, spells, etc. 
 
+//"Shift" keydown triggers a overlay displaying key player stats 
