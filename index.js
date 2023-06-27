@@ -198,6 +198,10 @@ const generateCharacter = (pcInfo) => {
     const charCha = document.getElementById("cha")
     charCha.textContent = `CHA: ${playerCharacter.cha}`
 
+    const gameMusic = document.getElementById("dungeon-music")
+    gameMusic.volume = 0.5
+    gameMusic.play()
+
 }
 //Takes an input and searches the database for a match
 async function fetchChar(input) {
@@ -750,6 +754,7 @@ function gameOver(gameText) {
     gameText.textContent = `GAME OVER! You have died.`
     document.getElementById('input-form').removeEventListener()
 }
+//"Shift" keydown triggers a overlay displaying key player stats 
 function characterInventory() {
     document.addEventListener("keydown", function (e) { 
         if (e.key == "Shift") {
@@ -780,6 +785,4 @@ characterInventory()
 initCharMaker()
 charSearch()
 generateAvailableRooms()
-// "i" keydown event to display inventory of main hand, off hand, armor, spells, etc. 
 
-//"Shift" keydown triggers a overlay displaying key player stats 

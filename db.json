@@ -30,9 +30,39 @@
       "spell-3": "empty",
       "spell-4": "empty",
       "spell-5": "empty"
+    },
+    {
+      "name": "Cheese",
+      "currentHp": 10,
+      "totalHp": 10,
+      "AC": 13,
+      "str": 16,
+      "dex": 16,
+      "con": 13,
+      "wis": 8,
+      "int": 8,
+      "cha": 8,
+      "str-mod": 3,
+      "dex-mod": 3,
+      "con-mod": 1,
+      "wis-mod": -1,
+      "int-mod": -1,
+      "cha-mod": -1,
+      "potions": 0,
+      "main-hand": "empty",
+      "off-hand": "empty",
+      "armor": "empty",
+      "ranged": "empty",
+      "gold": 0,
+      "key": 0,
+      "spell-1": "firebolt",
+      "spell-2": "empty",
+      "spell-3": "empty",
+      "spell-4": "empty",
+      "spell-5": "empty",
+      "id": 2
     }
   ],
-
   "Monsters": [
     {
       "id": 1,
@@ -73,7 +103,6 @@
       "attack": "The Zombie charges you, attempting to slam and bite you with what remains of its jaw."
     }
   ],
-
   "NPC": [
     {
       "id": 1,
@@ -128,9 +157,7 @@
       "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
     }
   ],
-  
   "Puzzle": [
-
     {
       "id": 1,
       "type": "puzzle",
@@ -156,7 +183,6 @@
       "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
     }
   ],
-
   "Treasure": [
     {
       "id": 1,
@@ -179,7 +205,6 @@
       "option-3-good": "The key fits! you recieve the truck's content.",
       "option-3-bad": "This should not fire."
     },
-
     {
       "id": 2,
       "type": "treasure",
@@ -208,7 +233,6 @@
       "option3BadRes": "hp"
     }
   ],
-
   "Items": [
     {
       "id": 1,
@@ -217,10 +241,10 @@
       "stat": "str"
     },
     {
-    "id": 2,
-    "name": "Dagger",
-    "modifier": 1,
-    "stat": "dex"
+      "id": 2,
+      "name": "Dagger",
+      "modifier": 1,
+      "stat": "dex"
     },
     {
       "id": 3,
@@ -235,5 +259,4 @@
       "stat": "key"
     }
   ]
-
 }
