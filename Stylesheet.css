@@ -293,9 +293,23 @@ body {
   color: #ffffff;
   position: relative;
   text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  font-family: Luminari;
   top: 150px;
   border-radius: 45px;
   padding: 45px;
-  width: 400px;
+  width: 750px;
   margin: 0 auto;
+}
+#game-screen input{
+  display: grid;
+  margin-top: 10px;
+  text-align: center;
+  align-items: center;
+}
+.Location {
+  font-size: 65px;
+  font-weight: bold;
+  font-family: Luminari;
 }

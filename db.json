@@ -35,6 +35,7 @@
 
   "Events": [
     {
+      "id": 1,
       "1": "Monsters",
       "2": "NPC",
       "3": "Puzzle",
@@ -45,6 +46,7 @@
   "Monsters": [
     {
       "id": 1,
+      "type": "monster",
       "name": "Goblin",
       "Hp": 5,
       "AC": 13,
@@ -62,6 +64,7 @@
     },
     {
       "id": 2,
+      "type": "monster",
       "name": "Zombie",
       "Hp": 8,
       "AC": 7,
@@ -82,6 +85,33 @@
   "NPC": [
     {
       "id": 1,
+      "type": "npc",
+      "name": "Gertrude",
+      "HP": 4,
+      "AC": 10,
+      "str-mod": 1,
+      "dex-mod": 0,
+      "con-mod": 0,
+      "wis-mod": 3,
+      "int-mod": 2,
+      "cha-mod": 1,
+      "item": 2,
+      "gold": true,
+      "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
+      "prelude": "The sounds of someone crying is coming from this direction.",
+      "attack": "The woman swings wildly at you with a hidden dagger!",
+      "option-1": "calm",
+      "option-1-test": "wis",
+      "option-1-good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
+      "option-1-bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
+      "option-2": "seduce",
+      "option-2-test": "cha",
+      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
+      "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
+    },
+    {
+      "id": 2,
+      "type": "npc",
       "name": "Gertrude",
       "HP": 4,
       "AC": 10,
@@ -102,25 +132,28 @@
       "option-2-test": "cha",
       "option-1-good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
       "option-1-bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
-      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here.",
-      "option-2-bad": "You disgust me. Leave now before I make you regret your advances."
+      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
+      "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
     }
   ],
   
   "Puzzle": [
-<<<<<<< HEAD
-=======
+
     {
       "id": 1,
-      "name": "Prison Cell",
-      "gold": false,
-      "description": "You have awoken in a dark cell. It is dimly lit with torches on the wall. The room is bare except for a bed and a bucket, what do you do? You could Look under the bed, 'Use' the bucket... or Leave.",
-      "prelude": "",
-      "hint": ""
+      "type": "puzzle",
+      "name": "Magic Mirror",
+      "gold": true,
+      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
+      "prelude": "Looking in this direction sends back a reflection of yourself",
+      "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
+      "answer": "horseshoe",
+      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
+      "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
     },
->>>>>>> 27b8ec358dccef88ee5ffab1369ab7bc0c3cab79
     {
-      "id": 1,
+      "id": 2,
+      "type": "puzzle",
       "name": "Magic Mirror",
       "gold": true,
       "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
@@ -135,6 +168,7 @@
   "Treasure": [
     {
       "id": 1,
+      "type": "treasure",
       "name": "Treasure Chest",
       "item": 3,
       "gold": 25,
@@ -152,24 +186,32 @@
       "option-3-good": "The key fits! you recieve the truck's content.",
       "option-3-bad": "This should not fire."
     },
+
     {
       "id": 2,
+      "type": "treasure",
       "name": "Prison Cell",
-      "item": 4,
-      "gold": 2,
+      "item": "",
+      "gold": 5,
       "description": "You awake to find yourself in a prison cell, the door left ajar. You have no memory of how you got to this place. Inside the room there is a bucket and your bunk bed. What would you like to do? You can Look inside of the bucket, Peek under the bed, Leave, or 'Use' the bucket.",
-      "option-1": "look",
-      "option-1-test": "wis",
-      "option-2": "peek",
-      "option-2-test": "wis",
-      "option-3": "use",
-      "option-3-test": "con",
-      "option-1-good": "You spot something shiny through the refuse! You dig on in and find a key",
-      "option-1-bad": "You see something unpleasant. This bucket has been used very recently and frequently",
-      "option-2-good": "Under the bed someone stashed what looks like a bag of coin tucked inside the bedframe",
-      "option-2-bad": "You find a dead rat and a lot of dust.",
-      "option-3-good": "An incredible use of your time. You feel 5 pounds lighter.",
-      "option-3-bad": "You strain and pull something as you squat awkwardly over the bucket."
+      "option1": "look",
+      "option1Test": "wis-mod",
+      "option1Good": "You spot something shiny through the refuse! You dig on in and find a key. I'm sure that was sanitary. It may be a good time to Leave and find out what that key is for!",
+      "option1GoodRes": "key",
+      "option1Bad": "You see something unpleasant. This bucket has been used very recently and frequently. Gross. Its probably time to Leave",
+      "option1BadRes": "",
+      "option2": "peek",
+      "option2Test": "wis-mod",
+      "option2GoodRes": "gold",
+      "option2Bad": "You find a dead rat and a lot of dust. You should probably just Leave.",
+      "option2BadRes": "",
+      "option2Good": "Under the bed someone stashed what looks like a bag of coin tucked inside the bedframe. That was a lucky find, but its probably time to Leave.",
+      "option3": "use",
+      "option3Test": "con-mod",
+      "option3Good": "An incredible use of your time. You feel 5 pounds lighter. Maybe its about time to Leave.",
+      "option3GoodRes": "",
+      "option3Bad": "You strain and pull something as you squat awkwardly over the bucket. Maybe you should just Leave.",
+      "option3BadRes": "hp"
     }
   ],
 
@@ -198,12 +240,6 @@
       "modifier": 1,
       "stat": "key"
     }
-  ],
-
-  "Location": [
-    {
-      "id": 1,
-      "name": "Prison Cell"
-    }
   ]
+
 }
