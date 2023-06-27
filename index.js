@@ -40,6 +40,55 @@ const charSearch = () => {
         })
     })
 }
+//Handles Treasure Rooms
+const treasureRoom = (inputOption, gameText) => {
+
+    let skillDC = Math.floor(Math.random() * 11) + 5
+    console.log(`skillDC: ${skillDC}`)
+
+    let skillType = currentLocation[`option${inputOption}Test`]
+    let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[skillType] + 1)
+    console.log(`skillCheck: ${skillCheck}`)
+
+    if (skillCheck >= skillDC) {
+        console.log(typeof currentLocation[`option${inputOption}GoodRes`])
+
+        if (currentLocation[`option${inputOption}GoodRes`] === "key") {
+
+            playerCharacter.key++
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained A Key!`
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "gold") {
+
+            playerCharacter.gold += currentLocation.gold
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained ${currentLocation.gold} gold!`
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "item") {
+
+            //runItemSwap() 
+        } else {
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]}`
+            console.log('missfired')
+        }
+
+    } else {
+
+        if (currentLocation[`option${inputOption}BadRes`] === "HP") {
+
+            const healthLoss = Math.floor(Math.random() * 3) + 1
+            playerCharacter.currentHp -= healthLoss
+
+            gameText.textContent = `${currentLocation[`option${inputOption}Bad`]} You lost ${healthLoss} Health.`
+
+            const healthBar = document.getElementById("health-number")
+            healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+
+        } else {
+            gameText.textContent = currentLocation[`option${inputOption}Bad`]
+        }
+    }
+    leaveSwitch = true;
+}
 //Pushes the available Event Types into the left, right and forward arrays to be called on later
 async function generateAvailableRooms() {
 
@@ -59,51 +108,51 @@ async function generateAvailableRooms() {
     treasure = await treasureRes.json()
     console.log(treasure)
 
-        monsters.forEach(e => {
-            console.log(e)
-            let RNG = Math.floor(Math.random() * 3) + 1
-            if (RNG === 1){
-                left.push(e)
-            } if (RNG === 2){
-                right.push(e)
-            } if (RNG === 3){
-                forward.push(e)
-            }
-        })
-        npc.forEach(e => {
-            console.log(e)
-            let RNG = Math.floor(Math.random() * 3) + 1
-            if (RNG === 1){
-                left.push(e)
-            } if (RNG === 2){
-                right.push(e)
-            } if (RNG === 3){
-                forward.push(e)
-            }
-        })
-        puzzle.forEach(e => {
-            console.log(e)
-            let RNG = Math.floor(Math.random() * 3) + 1
-            if (RNG === 1){
-                left.push(e)
-            } if (RNG === 2){
-                right.push(e)
-            } if (RNG === 3){
-                forward.push(e)
-            }
-        })
-        treasure.forEach(e => {
-            console.log(e)
-            let RNG = Math.floor(Math.random() * 3) + 1
-            if (RNG === 1){
-                left.push(e)
-            } if (RNG === 2){
-                right.push(e)
-            } if (RNG === 3){
-                forward.push(e)
-            }
-        })
-        console.log(left, forward, right)
+    monsters.forEach(e => {
+        console.log(e)
+        let RNG = Math.floor(Math.random() * 3) + 1
+        if (RNG === 1) {
+            left.push(e)
+        } if (RNG === 2) {
+            right.push(e)
+        } if (RNG === 3) {
+            forward.push(e)
+        }
+    })
+    npc.forEach(e => {
+        console.log(e)
+        let RNG = Math.floor(Math.random() * 3) + 1
+        if (RNG === 1) {
+            left.push(e)
+        } if (RNG === 2) {
+            right.push(e)
+        } if (RNG === 3) {
+            forward.push(e)
+        }
+    })
+    puzzle.forEach(e => {
+        console.log(e)
+        let RNG = Math.floor(Math.random() * 3) + 1
+        if (RNG === 1) {
+            left.push(e)
+        } if (RNG === 2) {
+            right.push(e)
+        } if (RNG === 3) {
+            forward.push(e)
+        }
+    })
+    treasure.forEach(e => {
+        console.log(e)
+        let RNG = Math.floor(Math.random() * 3) + 1
+        if (RNG === 1) {
+            left.push(e)
+        } if (RNG === 2) {
+            right.push(e)
+        } if (RNG === 3) {
+            forward.push(e)
+        }
+    })
+    console.log(left, forward, right)
 
 }
 //Handles saving a newly created character to the JSON
@@ -438,7 +487,7 @@ const runNextRooms = (gameText) => {
 
     locationLeft = left[leftRNG]
     console.log(locationLeft)
-    if(locationLeft === undefined){
+    if (locationLeft === undefined) {
         locationLeftText = ""
     } else if (left === []) {
         locationLeftText = ""
@@ -448,9 +497,9 @@ const runNextRooms = (gameText) => {
     }
 
     locationRight = right[rightRNG]
-    if(locationRight === undefined){
+    if (locationRight === undefined) {
         locationRightText = ""
-    } else if(right === []) {
+    } else if (right === []) {
         locationRightText = ""
     } else {
         locationRightText = `There is a room to your Right. ${locationRight.prelude}`
@@ -459,10 +508,10 @@ const runNextRooms = (gameText) => {
 
 
     locationForward = forward[forwardRNG]
-    if(locationForward === undefined){
+    if (locationForward === undefined) {
         locationForwardText = ""
-    } else if (forward === []){
-       locationForwardText = "" 
+    } else if (forward === []) {
+        locationForwardText = ""
     } else {
         locationForwardText = `There is a room in Front of you. ${locationForward.prelude}`
         forward.splice(forwardRNG, 1)
@@ -470,219 +519,173 @@ const runNextRooms = (gameText) => {
 
     // console.log(left, right, forward)
     // console.log(locationLeftText, locationRightText, locationForwardText)
-    
+
     lookSwitch = true;
 
     gameText.textContent = `${locationLeftText} ${locationRightText} ${locationForwardText} `
-    
+
 }
 //Runs the Combat Scenario (currently not functional)
-const runCombat = () => {
-    console.log(currentLocation)
+const runCombat = (gameDialogueInput, gameText, room, gameText, gameScreen, startGameForm) => {
+    startGameForm.removeEventListener()
+    gameText.textContent = 
+    startGameForm.addEventListener("submit", e => {
+
+    })
 }
-//Grabs information about the current Room and checks to make sure that the Input is relevant to the current Room
+//Grabs information about the current Room and checks to make sure that the Input is relevant to the current Room, then runs the correct room function
 const runCurrentRoom = (input, room, gameText) => {
 
     room.textContent = currentLocation.name
 
     if (leaveSwitch === false) {
         if (currentLocation.type === "treasure") {
-
+            let inputOption
             if (input === currentLocation.option1) {
-
-                
-                let skillDC = Math.floor(Math.random() * 11) + 5
-                console.log(`skillDC: ${skillDC}`)
-                let skillType = currentLocation.option1Test
-                let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[skillType] + 1)
-                console.log(`skillCheck: ${skillCheck}`)
-
-                if (skillCheck >= skillDC) {
-
-
-                    if (currentLocation.option1GoodRes === "key") {
-
-                        playerCharacter.key++
-                        gameText.textContent = `${currentLocation.option1Good} You gained A Key!`
-
-                    } if (currentLocation.option1GoodRes === "gold") {
-
-                        playerCharacter.gold += currentLocation.gold
-                        gameText.textContent = `${currentLocation.option1Good} You gained ${currentLocation.gold}`
-
-                    } if (currentLocation.option1GoodRes === "item") {
-
-                        //runItemSwap() 
+                inputOption = "1"
+                if (currentLocation.option1 === "key") {
+                    if (playerCharacter.key > 0) {
+                        playerCharacter.key--
+                        treasureRoom(inputOption, gameText)
                     } else {
-                        gameText.textContent = `${currentLocation.option1Good}`
+                        alert('You do not have a key')
                     }
-
                 } else {
-
-                    if (currentLocation.option1BadRes === "HP") {
-
-                        const healthLoss = Math.floor(Math.random() * 3) + 1
-                        playerCharacter.currentHp -= healthLoss
-
-                        gameText.textContent = `${currentLocation.option1Bad} You lost ${healthLoss} Health.`
-
-                        const healthBar = document.getElementById("health-number")
-                        healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-
-                    } else {
-                        gameText.textContent = currentLocation.option1Bad
-                    }
+                    treasureRoom(inputOption, gameText)
                 }
 
             } if (input === currentLocation.option2) {
-
-                let skillDC = Math.floor(Math.random() * 11) + 5
-                console.log(`skillDC: ${skillDC}`)
-                let skillType = currentLocation.option2Test
-                let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[skillType] + 1)
-                console.log(`skillCheck: ${skillCheck}`)
-
-                if (skillCheck >= skillDC) {
-
-
-                    if (currentLocation.option2GoodRes === "key") {
-
-                        playerCharacter.key++
-                        gameText.textContent = `${currentLocation.option2Good} You gained a Key!`
-
-                    } if (currentLocation.option2GoodRes === "gold") {
-
-                        playerCharacter.gold += currentLocation.gold
-                        gameText.textContent = `${currentLocation.option2Good} You gained ${currentLocation.gold} Gold!`
-
-                    } if (currentLocation.option2GoodRes === "item") {
-
-                        //runItemSwap()
+                inputOption = "2"
+                if (currentLocation.option2 === "key") {
+                    if (playerCharacter.key > 0) {
+                        playerCharacter.key--
+                        treasureRoom(inputOption, gameText)
                     } else {
-                        gameText.textContent = `${currentLocation.option1Good}`
+                        alert('You do not have a key')
                     }
-
                 } else {
-
-                    if (currentLocation.option2BadRes === "HP") {
-
-                        const healthLoss = Math.floor(Math.random() * 3) + 1
-                        playerCharacter.currentHp -= healthLoss
-
-                        gameText.textContent = `${currentLocation.option2Bad} You lost ${healthLoss} Health.`
-
-                        const healthBar = document.getElementById("health-number")
-                        healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-
-                    } else {
-                        gameText.textContent = currentLocation.option2Bad
-                    }
+                    treasureRoom(inputOption, gameText)
                 }
             } if (input === currentLocation.option3) {
-
-                let skillDC = Math.floor(Math.random() * 11) + 5
-                console.log(`skillDC: ${skillDC}`)
-                let skillType = currentLocation.option3Test
-                let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[skillType] + 1)
-                console.log(`skillCheck: ${skillCheck}`)
-
-                if (skillCheck >= skillDC) {
-
-
-                    if (currentLocation.option3GoodRes === "key") {
-
-                        playerCharacter.key++
-                        gameText.textContent = `${currentLocation.option3Good} You gained A Key!`
-
-                    } else if (currentLocation.option3GoodRes === "gold") {
-
-                        playerCharacter.gold += currentLocation.gold
-                        gameText.textContent = `${currentLocation.option3Good} You gained ${currentLocation.gold}`
-
-                    } else if (currentLocation.option3GoodRes === "item") {
-
-                        //runItemSwap()
+                inputOption = "3"
+                if (currentLocation.option3 === "key") {
+                    if (playerCharacter.key > 0) {
+                        playerCharacter.key--
+                        treasureRoom(inputOption, gameText)
                     } else {
-                        gameText.textContent = `${currentLocation.option3Good}`
+                        alert('You do not have a key')
                     }
-
                 } else {
-                    if (currentLocation.option3BadRes === "hp") {
-                        console.log('test')
-
-                        const healthLoss = Math.floor(Math.random() * 3) + 1
-                        playerCharacter.currentHp -= healthLoss
-
-                        gameText.textContent = `${currentLocation.option3Bad} You lost ${healthLoss} Health.`
-
-                        const healthBar = document.getElementById("health-number")
-                        healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-
-                    } else {
-                        gameText.textContent = currentLocation.option3Bad
-                    }
+                    treasureRoom(inputOption, gameText)
                 }
             }
-
-        } if (currentLocation.type === "Monsters") {
-
-        } if (currentLocation.type === "puzzle") {
+        }
+        if (currentLocation.type === "puzzle") {
 
         } if (currentLocation.type === "npc") {
 
         }
     }
+
+
 }
 //Handles leaving a room and entering the next room
 const runRoomChange = (input, room, gameText) => {
     lookSwitch = false;
-    if(input === "left") {
+    if (input === "left") {
         currentLocation = locationLeft
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head left. ${currentLocation.description}`
 
 
-    } if(input === "right") {
+    } if (input === "right") {
         currentLocation = locationRight
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
 
-    } if(input === "forward") {
+    } if (input === "forward") {
         currentLocation = locationForward
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
     }
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
-const runItemSwap = () => {
+const runItemSwap = (gameText) => {
 
 }
 //Handles testing the Input field between possible basic options to lead to the proper function to fire
 const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameForm) => {
     startGameForm.addEventListener("submit", e => {
         e.preventDefault()
-        if (gameDialogueInput.value.toLowerCase() === "leave") {
-
-            runNextRooms(gameText)
-
-        } if(lookSwitch === true){
-
-            if (gameDialogueInput.value.toLowerCase() === "left") {
-                
-                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
-                
-            } if (gameDialogueInput.value.toLowerCase() === "forward") {
-                
-                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
-                
-            } if (gameDialogueInput.value.toLowerCase() === "right") {
-                
-                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+        if (leaveSwitch === true) {
+            if (gameDialogueInput.value.toLowerCase() !== "leave") {
+                alert('You have exhausted this room, its time to move on.')
+            } else {
+                leaveSwitch = false;
+                runNextRooms(gameText)
             }
-
         } else {
 
-            runCurrentRoom(gameDialogueInput.value.toLowerCase(), room, gameText)
+            if (gameDialogueInput.value.toLowerCase() === "leave") {
+
+                if (currentLocation.type === 'monster') {
+
+                    let skillDC = Math.floor(Math.random() * 11) + 5
+                    console.log(`skillDC: ${skillDC}`)
+                    let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[`dex-mod`] + 1)
+                    console.log(`skillCheck: ${skillCheck}`)
+
+                    if (skillCheck > skillDC) {
+                        runNextRooms(gameText)
+                    } else {
+                        if (currentLocation[`dex-mod`] > currentLocation[`str-mod`]) {
+                            let damageType = currentLocation[`dex-mod`]
+                        } else {
+                            let damageType = currentLocation[`str-mod`]
+                        }
+
+                        let attackDC = player.AC
+                        console.log(`skillDC: ${attackDC}`)
+                        let attackRoll = Math.floor(Math.random() * 20) + (damageType + 1)
+                        console.log(`skillCheck: ${attackRoll}`)
+
+                        if (attackRoll > attackDC) {
+                            let damage = Math.floor(Math.random() * 5) + damageType
+                            playerCharacter.currentHp -= damage
+                            gameText.textContent = `You failed to get away! ${currentLocation.attack} You take ${damage} damage!`
+                            document.getElementById("health-number").textContent  = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                            if(playerCharacter.currentHp = 0) {
+                                gameOver()
+                            }
+                        }
+
+
+                    }
+                }
+                runNextRooms(gameText)
+
+            } if (gameDialogueInput.value.toLowerCase() === "attack") {
+
+                runCombat(gameDialogueInput, gameText, room, gameText, gameScreen, startGameForm)
+            } if (lookSwitch === true) {
+
+                if (gameDialogueInput.value.toLowerCase() === "left") {
+
+                    runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+
+                } if (gameDialogueInput.value.toLowerCase() === "forward") {
+
+                    runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+
+                } if (gameDialogueInput.value.toLowerCase() === "right") {
+
+                    runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+                }
+
+            } else {
+
+                runCurrentRoom(gameDialogueInput.value.toLowerCase(), room, gameText)
+            }
         }
         startGameForm.reset()
     })
@@ -716,6 +719,7 @@ function startGameFromCharacterSubmission() {
         gameScreen.appendChild(gameText)
 
         const startGameForm = document.createElement("form")
+        startGameForm.id = "input-form"
 
         const gameDialogueInput = document.createElement("input")
         gameDialogueInput.className = 'submit-button'
@@ -738,6 +742,11 @@ async function search(argument) {
     const res = await fetch(argument)
     const results = await res.json();
     return results;
+}
+//Currently nothing crazy, just a Game Over notice
+function gameOver(gameText) {
+    gameText.textContent = `GAME OVER! You have died.`
+    document.getElementById('input-form').removeEventListener()
 }
 
 initCharMaker()

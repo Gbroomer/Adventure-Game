@@ -48,7 +48,8 @@
       "cha-mod": -1,
       "item": 1,
       "gold": true,
-      "description": "A foul green monster stands about 4 feet tall in front of you. His odor is that of spoiled meat and fecal matter. He has a scimitar in hand and begins to charge. Do you want to Attack them or Leave?",
+      "description": "A foul green monster stands about 4 feet tall in front of you. His odor is that of spoiled meat and fecal matter. He has a scimitar in hand and attempts to charge you. Do you want to Attack them or try to Leave?",
+      "combat": "The Goblin faces you down, how would you like to attack?",
       "prelude": "A strange smell of waste comes from this direction. There are high pitched giggles and snarls. Something just sneezed violently. ",
       "attack": "The Goblin swings its scimitar wildly in your direction!"
     },
@@ -67,6 +68,7 @@
       "item": null,
       "gold": true,
       "description": "A mass of rotten skin, explosed muscle and protruding bones stands before you. Whoever this person was before, they are now an undead abomination.",
+      "combat": "The Zombie is shambling towards you, how would you like to attack?",
       "prelude": "The smell of rotten flesh accompanies low, gutteral moans. Something is shambling in here. ",
       "attack": "The Zombie charges you, attempting to slam and bite you with what remains of its jaw."
     }
@@ -168,7 +170,7 @@
       "option-1-test": "str",
       "option-2": "pick",
       "option-2-test": "dex",
-      "option-3": "Key",
+      "option-3": "key",
       "option-3-test": "key",
       "option-1-good": "You manage to successfully destroy the lock, recieving the truck's content.",
       "option-1-bad": "You completely fail to destroy the lock, and now you've hurt yourself.",
