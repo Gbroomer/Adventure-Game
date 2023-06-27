@@ -1,7 +1,11 @@
 
 //Global variables that are used in several functions
-let fetchPlayer, playerCharacter, currentLocation, locationLeft, locationRight, locationForward;
-let leaveSwitch = false;
+let fetchPlayer, playerCharacter, currentLocation, locationLeft = {}, locationRight = {}, locationForward = {}
+let leaveSwitch = false
+let lookSwitch = false
+let left = []
+let right = []
+let forward = []
 
 //Handles the searchbar functionality
 const charSearch = () => {
@@ -35,6 +39,72 @@ const charSearch = () => {
             }
         })
     })
+}
+//Pushes the available Event Types into the left, right and forward arrays to be called on later
+async function generateAvailableRooms() {
+
+    const monstersRes = await fetch('http://localhost:3000/Monsters')
+    monsters = await monstersRes.json()
+    console.log(monsters)
+
+    const npcRes = await fetch(`http://localhost:3000/NPC`)
+    npc = await npcRes.json()
+    console.log(npc)
+
+    const puzzleRes = await fetch('http://localhost:3000/Puzzle')
+    puzzle = await puzzleRes.json()
+    console.log(puzzle)
+
+    const treasureRes = await fetch('http://localhost:3000/Treasure')
+    treasure = await treasureRes.json()
+    console.log(treasure)
+
+        monsters.forEach(e => {
+            console.log(e)
+            let RNG = Math.floor(Math.random() * 3) + 1
+            if (RNG === 1){
+                left.push(e)
+            } if (RNG === 2){
+                right.push(e)
+            } if (RNG === 3){
+                forward.push(e)
+            }
+        })
+        npc.forEach(e => {
+            console.log(e)
+            let RNG = Math.floor(Math.random() * 3) + 1
+            if (RNG === 1){
+                left.push(e)
+            } if (RNG === 2){
+                right.push(e)
+            } if (RNG === 3){
+                forward.push(e)
+            }
+        })
+        puzzle.forEach(e => {
+            console.log(e)
+            let RNG = Math.floor(Math.random() * 3) + 1
+            if (RNG === 1){
+                left.push(e)
+            } if (RNG === 2){
+                right.push(e)
+            } if (RNG === 3){
+                forward.push(e)
+            }
+        })
+        treasure.forEach(e => {
+            console.log(e)
+            let RNG = Math.floor(Math.random() * 3) + 1
+            if (RNG === 1){
+                left.push(e)
+            } if (RNG === 2){
+                right.push(e)
+            } if (RNG === 3){
+                forward.push(e)
+            }
+        })
+        console.log(left, forward, right)
+
 }
 //Handles saving a newly created character to the JSON
 function postCharacter() {
@@ -352,82 +422,59 @@ const initCharMaker = () => {
     })
 }
 //Generates the Information about the Next Rooms
-const runNextRooms = (room, gameText) => {
+const runNextRooms = (gameText) => {
+
+    locationLeft = undefined
+    locationRight = undefined
+    locationForward = undefined
+
+    let locationLeftText, locationRightText, locationForwardText
+    locationLeftText = "", locationRightText = "", locationForwardText = ""
+
+    let leftRNG = Math.floor(Math.random() * left.length)
+    let rightRNG = Math.floor(Math.random() * right.length)
+    let forwardRNG = Math.floor(Math.random() * forward.length)
+    // console.log(leftRNG, rightRNG, forwardRNG)
+
+    locationLeft = left[leftRNG]
+    console.log(locationLeft)
+    if(locationLeft === undefined){
+        locationLeftText = ""
+    } else if (left === []) {
+        locationLeftText = ""
+    } else {
+        locationLeftText = `There is a room to your Left. ${locationLeft.prelude}`
+        left.splice(leftRNG, 1)
+    }
+
+    locationRight = right[rightRNG]
+    if(locationRight === undefined){
+        locationRightText = ""
+    } else if(right === []) {
+        locationRightText = ""
+    } else {
+        locationRightText = `There is a room to your Right. ${locationRight.prelude}`
+        right.splice(rightRNG, 1)
+    }
+
+
+    locationForward = forward[forwardRNG]
+    if(locationForward === undefined){
+        locationForwardText = ""
+    } else if (forward === []){
+       locationForwardText = "" 
+    } else {
+        locationForwardText = `There is a room in Front of you. ${locationForward.prelude}`
+        forward.splice(forwardRNG, 1)
+    }
+
+    // console.log(left, right, forward)
+    // console.log(locationLeftText, locationRightText, locationForwardText)
     
-    search("http://localhost:3000/Events/1").then(res => {
-        locationLeft = undefined
-        locationRight = undefined
-        locationForward = undefined
-        let left, right, forward
-        let events = res
-        for(i = 1; i < 4; i++){
-            let RNG = Math.floor(Math.random() * 4) + 1
-            if(i !== RNG){
-                    let eventType = events[i]
+    lookSwitch = true;
 
-                    if (i === 1) {
-
-                        left = eventType
-
-                    } else if (i === 2) {
-
-                        right = eventType
-
-                    } else if (i === 3) {
-
-                        forward = eventType
-
-                    }
-                }
-
-        } 
-        // console.log(left, right, forward)
-        
-        if (left === undefined, right === undefined, forward === undefined){
-
-            left = "Monsters"
-            right = "Monsters"
-            forward = "Monsters"
-       
-        } 
-        let eventsArray = []
-        if(left !== undefined){
-            eventsArray.push(left)
-        }if(right !== undefined) {
-            eventsArray.push(right)
-        }if(forward !== undefined){
-            eventsArray.push(forward)
-        }
-
-        let weirdCounter = 0
-        for(i = 0; i < eventsArray.length; i++) {
-            let idRNG = Math.floor(Math.random() * 2) +1
-            weirdCounter ++;
-            // console.log(eventsArray, i)
-            // console.log(res)
-            if(eventsArray.includes(left) && weirdCounter === 1) {
-                search(`http://localhost:3000/${eventsArray[i]}/${idRNG}`).then(res => {
-                    locationLeft = res
-                    console.log(`data: ${res.name}`)
-                    console.log(`location: ${locationLeft.name}`)
-            })
-
-            } else if(eventsArray.includes(right) && weirdCounter === 2) {
-                search(`http://localhost:3000/${eventsArray[i]}/${idRNG}`).then(res => {
-                    locationRight = res
-                    console.log(`data: ${res.name}`)
-                    console.log(`location: ${locationRight.name}`)
-                })
-
-            } else if(eventsArray.includes(forward) && weirdCounter === 3) {
-                search(`http://localhost:3000/${eventsArray[i]}/${idRNG}`).then(res => {
-                    locationForward = res
-                    console.log(`data: ${res.name}`)
-                    console.log(`location: ${locationForward.name}`)
-                })
-            }
-        }
-    })
+    gameText.textContent = `${locationLeftText} ${locationRightText} ${locationForwardText} `
+    
 }
 //Runs the Combat Scenario (currently not functional)
 const runCombat = () => {
@@ -443,6 +490,7 @@ const runCurrentRoom = (input, room, gameText) => {
 
             if (input === currentLocation.option1) {
 
+                
                 let skillDC = Math.floor(Math.random() * 11) + 5
                 console.log(`skillDC: ${skillDC}`)
                 let skillType = currentLocation.option1Test
@@ -451,25 +499,27 @@ const runCurrentRoom = (input, room, gameText) => {
 
                 if (skillCheck >= skillDC) {
 
-                    
-                    if(currentLocation.option1GoodRes === "key") {
+
+                    if (currentLocation.option1GoodRes === "key") {
 
                         playerCharacter.key++
                         gameText.textContent = `${currentLocation.option1Good} You gained A Key!`
 
-                    } if(currentLocation.option1GoodRes === "gold") {
+                    } if (currentLocation.option1GoodRes === "gold") {
 
                         playerCharacter.gold += currentLocation.gold
                         gameText.textContent = `${currentLocation.option1Good} You gained ${currentLocation.gold}`
 
-                    } if(currentLocation.option1GoodRes === "item") {
+                    } if (currentLocation.option1GoodRes === "item") {
 
-                        //runItemSwap()
+                        //runItemSwap() 
+                    } else {
+                        gameText.textContent = `${currentLocation.option1Good}`
                     }
 
                 } else {
 
-                    if(currentLocation.option1BadRes === "HP") {
+                    if (currentLocation.option1BadRes === "HP") {
 
                         const healthLoss = Math.floor(Math.random() * 3) + 1
                         playerCharacter.currentHp -= healthLoss
@@ -494,25 +544,27 @@ const runCurrentRoom = (input, room, gameText) => {
 
                 if (skillCheck >= skillDC) {
 
-                    
-                    if(currentLocation.option2GoodRes === "key") {
+
+                    if (currentLocation.option2GoodRes === "key") {
 
                         playerCharacter.key++
                         gameText.textContent = `${currentLocation.option2Good} You gained a Key!`
 
-                    } if(currentLocation.option2GoodRes === "gold") {
+                    } if (currentLocation.option2GoodRes === "gold") {
 
                         playerCharacter.gold += currentLocation.gold
                         gameText.textContent = `${currentLocation.option2Good} You gained ${currentLocation.gold} Gold!`
 
-                    } if(currentLocation.option2GoodRes === "item") {
+                    } if (currentLocation.option2GoodRes === "item") {
 
                         //runItemSwap()
+                    } else {
+                        gameText.textContent = `${currentLocation.option1Good}`
                     }
 
                 } else {
 
-                    if(currentLocation.option2BadRes === "HP") {
+                    if (currentLocation.option2BadRes === "HP") {
 
                         const healthLoss = Math.floor(Math.random() * 3) + 1
                         playerCharacter.currentHp -= healthLoss
@@ -536,24 +588,26 @@ const runCurrentRoom = (input, room, gameText) => {
 
                 if (skillCheck >= skillDC) {
 
-                    
-                    if(currentLocation.option3GoodRes === "key") {
+
+                    if (currentLocation.option3GoodRes === "key") {
 
                         playerCharacter.key++
                         gameText.textContent = `${currentLocation.option3Good} You gained A Key!`
 
-                    } else if(currentLocation.option3GoodRes === "gold") {
+                    } else if (currentLocation.option3GoodRes === "gold") {
 
                         playerCharacter.gold += currentLocation.gold
                         gameText.textContent = `${currentLocation.option3Good} You gained ${currentLocation.gold}`
 
-                    } else if(currentLocation.option3GoodRes === "item") {
+                    } else if (currentLocation.option3GoodRes === "item") {
 
                         //runItemSwap()
+                    } else {
+                        gameText.textContent = `${currentLocation.option3Good}`
                     }
 
                 } else {
-                    if(currentLocation.option3BadRes === "hp") {
+                    if (currentLocation.option3BadRes === "hp") {
                         console.log('test')
 
                         const healthLoss = Math.floor(Math.random() * 3) + 1
@@ -580,8 +634,24 @@ const runCurrentRoom = (input, room, gameText) => {
     }
 }
 //Handles leaving a room and entering the next room
-const runRoomChange = (input) => {
+const runRoomChange = (input, room, gameText) => {
+    lookSwitch = false;
+    if(input === "left") {
+        currentLocation = locationLeft
+        room.textContent = currentLocation.name
+        gameText.textContent = `You leave the room you're in and head left. ${currentLocation.description}`
 
+
+    } if(input === "right") {
+        currentLocation = locationRight
+        room.textContent = currentLocation.name
+        gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
+
+    } if(input === "forward") {
+        currentLocation = locationForward
+        room.textContent = currentLocation.name
+        gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
+    }
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
 const runItemSwap = () => {
@@ -593,23 +663,22 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
         e.preventDefault()
         if (gameDialogueInput.value.toLowerCase() === "leave") {
 
-            runNextRooms(room, gameText)
+            runNextRooms(gameText)
 
-        } if (gameDialogueInput.value.toLowerCase() === "attack") {
+        } if(lookSwitch === true){
 
-            combatEncounter(gameDialogueInput, room, gameText, gameScreen, startGameForm)
-
-        } if (gameDialogueInput.value.toLowerCase() === "left") {
-
-            runRoomChange(gameDialogueInput.value.toLowerCase())
-
-        } if (gameDialogueInput.value.toLowerCase() === "forward") {
-
-            runRoomChange(gameDialogueInput.value.toLowerCase())
-
-        } if (gameDialogueInput.value.toLowerCase() === "right") {
-
-            runRoomChange(gameDialogueInput.value.toLowerCase())
+            if (gameDialogueInput.value.toLowerCase() === "left") {
+                
+                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+                
+            } if (gameDialogueInput.value.toLowerCase() === "forward") {
+                
+                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+                
+            } if (gameDialogueInput.value.toLowerCase() === "right") {
+                
+                runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
+            }
 
         } else {
 
@@ -673,4 +742,6 @@ async function search(argument) {
 
 initCharMaker()
 charSearch()
+generateAvailableRooms()
+// "i" keydown event to display inventory of main hand, off hand, armor, spells, etc. 
 

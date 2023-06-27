@@ -33,16 +33,6 @@
     }
   ],
 
-  "Events": [
-    {
-      "id": 1,
-      "1": "Monsters",
-      "2": "NPC",
-      "3": "Puzzle",
-      "4": "Treasure"
-    }
-  ], 
-
   "Monsters": [
     {
       "id": 1,
@@ -58,8 +48,8 @@
       "cha-mod": -1,
       "item": 1,
       "gold": true,
-      "description": "A foul green monster stands about 4 feet tall in front of you. His odor is that of spoiled meat and fecal matter. He has a scimitar in hand and begins to charge",
-      "prelude": "A strange smell of waste comes from this direction. There are high pitched giggles and snarls. Something just sneezed violently.",
+      "description": "A foul green monster stands about 4 feet tall in front of you. His odor is that of spoiled meat and fecal matter. He has a scimitar in hand and begins to charge. Do you want to Attack them or Leave?",
+      "prelude": "A strange smell of waste comes from this direction. There are high pitched giggles and snarls. Something just sneezed violently. ",
       "attack": "The Goblin swings its scimitar wildly in your direction!"
     },
     {
@@ -77,7 +67,7 @@
       "item": null,
       "gold": true,
       "description": "A mass of rotten skin, explosed muscle and protruding bones stands before you. Whoever this person was before, they are now an undead abomination.",
-      "prelude": "The smell of rotten flesh accompanies low, gutteral moans. Something is shambling in the room next to you",
+      "prelude": "The smell of rotten flesh accompanies low, gutteral moans. Something is shambling in here. ",
       "attack": "The Zombie charges you, attempting to slam and bite you with what remains of its jaw."
     }
   ],
@@ -98,7 +88,7 @@
       "item": 2,
       "gold": true,
       "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
-      "prelude": "The sounds of someone crying is coming from this direction.",
+      "prelude": "you hear sounds of someone crying. It is a deep, low sob intermixed with light giggling. ",
       "attack": "The woman swings wildly at you with a hidden dagger!",
       "option-1": "calm",
       "option-1-test": "wis",
@@ -124,7 +114,7 @@
       "item": 2,
       "gold": true,
       "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
-      "prelude": "The sounds of someone crying is coming from this direction.",
+      "prelude": "you hear sounds of someone crying. It is a deep, low sob intermixed with light giggling. ",
       "attack": "The woman swings wildly at you with a hidden dagger!",
       "option-1": "calm",
       "option-1-test": "wis",
@@ -145,7 +135,7 @@
       "name": "Magic Mirror",
       "gold": true,
       "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
-      "prelude": "Looking in this direction sends back a reflection of yourself",
+      "prelude": "you see something is sending back a reflection of yourself. ",
       "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
       "answer": "horseshoe",
       "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
@@ -157,7 +147,7 @@
       "name": "Magic Mirror",
       "gold": true,
       "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
-      "prelude": "Looking in this direction sends back a reflection of yourself",
+      "prelude": "you see something is sending back a reflection of yourself. ",
       "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
       "answer": "horseshoe",
       "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
@@ -173,6 +163,7 @@
       "item": 3,
       "gold": 25,
       "description": "A large, very heavy trunk sits in front of you. There is a lock on it. What would you like to do? You could Bash it open, Leave it alone, try to Pick the lock, or use a Key if you have one.",
+      "prelude": "the room seems oddly quiet. There is no odor or sights that immediately catch your attention. ",
       "option-1": "bash",
       "option-1-test": "str",
       "option-2": "pick",
@@ -194,6 +185,7 @@
       "item": "",
       "gold": 5,
       "description": "You awake to find yourself in a prison cell, the door left ajar. You have no memory of how you got to this place. Inside the room there is a bucket and your bunk bed. What would you like to do? You can Look inside of the bucket, Peek under the bed, Leave, or 'Use' the bucket.",
+      "prelude": "you become convinced you must be halucinating! It would seem you've returned to your old cell... (I'll write this out later, left for testing purposes) ",
       "option1": "look",
       "option1Test": "wis-mod",
       "option1Good": "You spot something shiny through the refuse! You dig on in and find a key. I'm sure that was sanitary. It may be a good time to Leave and find out what that key is for!",
