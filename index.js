@@ -674,3 +674,28 @@ async function search(argument) {
 initCharMaker()
 charSearch()
 
+//"Shift" keydown triggers a overlay displaying key player stats 
+document.addEventListener("keydown", function (e) { 
+    if (e.key == "Shift") {
+        document.getElementById("potions").textContent = `Potions: ${playerCharacter["potions"]}`
+        document.getElementById("main-hand").textContent = `Main-hand: ${playerCharacter["main-hand"]}`
+        document.getElementById("off-hand").textContent = `Off-hand: ${playerCharacter["off-hand"]}`
+        document.getElementById("armor").textContent = `Armor: ${playerCharacter["armor"]}`
+        document.getElementById("ranged").textContent = `Ranged: ${playerCharacter["ranged"]}`
+        document.getElementById("gold").textContent = `Gold: ${playerCharacter["gold"]}`
+        document.getElementById("key").textContent = `Key: ${playerCharacter["key"]}`
+        document.getElementById("spell-1").textContent = `Spell 1: ${playerCharacter["spell-1"]}`
+        document.getElementById("spell-2").textContent = `Spell 2: ${playerCharacter["spell-2"]}`
+        document.getElementById("spell-3").textContent = `Spell 3: ${playerCharacter["spell-3"]}`
+        document.getElementById("spell-4").textContent = `Spell 4: ${playerCharacter["spell-4"]}`
+        document.getElementById("spell-5").textContent = `Spell 5: ${playerCharacter["spell-5"]}`
+
+        let invOverlay = document.getElementById("inventory")
+        
+        if (invOverlay.style.display == 'none') {
+            invOverlay.style.display = 'block';
+        } else {
+            invOverlay.style.display = 'none';
+        }
+    }
+})

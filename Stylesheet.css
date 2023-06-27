@@ -59,7 +59,7 @@ body {
     border:10px solid rgb(25, 25, 31);
     border-radius: 45px
   }
-  
+
   ul#stats-ul {
     list-style-type: none;
     padding: 0;
@@ -313,3 +313,30 @@ body {
   font-weight: bold;
   font-family: Luminari;
 }
+ .inv {
+    font-size: 34px;
+    font-weight: bold;
+    font-family: Luminari;
+    font-style: italic;
+    font-variant: small-caps;
+    padding: 25px;
+  }
+
+  #inventory {
+    background-color: #778899;
+    color: #ffffff;
+    position: absolute;
+    left: 200px;
+    bottom: 1;
+    top: 350px;
+    width: 650px;
+    height: 800px;
+    margin-top: 1;
+    display: none;
+    justify-content: center;
+    border:10px solid rgb(25, 25, 31);
+    border-radius: 45px;
+    column-count: 2;
+    z-index: 1
+  }
+  
