@@ -147,7 +147,7 @@ const puzzleRoom = (input, gameText) => {
 
 
         } else {
-            
+
             gameText.textContent = `That didn't seem to be it. You can try one more time. ${currentLocation.description}`
             guess++
 
@@ -941,23 +941,22 @@ const runRoomChange = (input, room, gameText) => {
     guess = 0
 
     if (input === "left") {
+
         currentLocation = locationLeft
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head left. ${currentLocation.description}`
-        runCurrentRoom(input, room, gameText)
 
     } if (input === "right") {
+
         currentLocation = locationRight
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
-        runCurrentRoom(input, room, gameText)
 
     } if (input === "forward") {
-        console.log(locationForward)
+
         currentLocation = locationForward
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
-        runCurrentRoom(input, room, gameText)
     }
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
