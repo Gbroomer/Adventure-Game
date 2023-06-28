@@ -3,6 +3,7 @@
 let fetchPlayer, playerCharacter, currentLocation, locationLeft = {}, locationRight = {}, locationForward = {}
 let leaveSwitch = false
 let lookSwitch = false
+let equipSwitch = true
 let left = []
 let right = []
 let forward = []
@@ -206,6 +207,8 @@ const generateCharacter = (pcInfo) => {
     const gameMusic = document.getElementById("dungeon-music")
     gameMusic.volume = 0.5
     gameMusic.play()
+
+    console.log(playerCharacter[`main-hand`].name)
     
 }
 //Takes an input and searches the database for a match
@@ -436,8 +439,8 @@ const initCharMaker = () => {
         if (totalPoints === 0) {
             const generatedCharacter = {
                 "name": nameInput,
-                "currentHp": 10,
-                "totalHp": 10,
+                "currentHp": Math.floor((str - 10) / 2) + 10,
+                "totalHp": Math.floor((str - 10) / 2) + 10,
                 "AC": Math.floor((dex - 10) / 2) + 10,
                 "str": str,
                 "dex": dex,
@@ -452,17 +455,55 @@ const initCharMaker = () => {
                 "int-mod": Math.floor((int - 10) / 2),
                 "cha-mod": Math.floor((cha - 10) / 2),
                 "potions": 0,
-                "main-hand": "empty",
-                "off-hand": "empty",
-                "armor": "empty",
-                "ranged": "empty",
+                "main-hand": {
+                    "id": 5,
+                    "name": "punch",
+                    "damage": 2,
+                    "stat": "str-mod"
+                     },
+                "off-hand": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
+                "armor": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
+                "ranged": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
                 "gold": 0,
                 "key": 0,
-                "spell-1": "firebolt",
-                "spell-2": "empty",
-                "spell-3": "empty",
-                "spell-4": "empty",
-                "spell-5": "empty"
+                "spell-1": {
+                    "id": 6,
+                    "name": "firebolt",
+                    "damage": 6,
+                    "stat": "int-mod"
+                  },
+                "spell-2": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
+                "spell-3": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
+                "spell-4": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  },
+                "spell-5": {
+                    "name": "empty",
+                    "damage": 2,
+                    "stat": "str-mod"
+                  }
             }
             fetchChar(generatedCharacter.name.toLowerCase()).then(res => {
                 console.log(fetchPlayer)
@@ -538,23 +579,14 @@ const runNextRooms = (gameText) => {
 }
 //Runs the Combat Scenario (currently not functional)
 const runCombat = (input, gameText) => {
-    const mainHand = playerCharacter[`main-hand`]
-    const offHand = playerCharacter[`off-hand`]
-    const spellOne = playerCharacter[`spell-1`]
-    const spellTwo = playerCharacter[`spell-2`]
-    const spellThree = playerCharacter[`spell-3`]
-    const spellFour = playerCharacter[`spell-4`]
-    const spellFive = playerCharacter[`spell-5`]
-    let statType, dice
     if (input === "leave") {
         let skillDC = Math.floor(Math.random() * 11) + 5
         console.log(`skillDC: ${skillDC}`)
         let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[`dex-mod`] + 1)
         console.log(`skillCheck: ${skillCheck}`)
         let damageType
-        if (skillCheck > skillDC) {
+        if (skillCheck > skillDC || leaveSwitch === true) {
 
-            runInputBox(input, gameText, room, gameScreen, startGameForm)
             runNextRooms(gameText)
 
         } else {
@@ -571,21 +603,140 @@ const runCombat = (input, gameText) => {
             console.log(`skillCheck: ${attackRoll}`)
 
             if (attackRoll > attackDC) {
-                let damage = Math.floor(Math.random() * 5) + damageType
+                let damage = Math.floor(Math.random() * currentLocation.damage) + damageType
                 playerCharacter.currentHp -= damage
                 gameText.textContent = `You failed to get away! ${currentLocation.attack} You take ${damage} damage! ${currentLocation.combat}`
                 document.getElementById("health-number").textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
                 if (playerCharacter.currentHp <= 0) {
-                    gameOver()
+                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                    gameOver(gameText)
                 }
             }
         }
-    } if (input === mainHand) {
+    } if (input === playerCharacter[`main-hand`].name) {
+        attackRolls(playerCharacter[`main-hand`], gameText)
+    } if (input === playerCharacter[`off-hand`].name) {
+        attackRolls(playerCharacter[`off-hand`], gameText)
+    } if (input === playerCharacter[`spell-1`].name) {
+        attackRolls(playerCharacter[`spell-1`], gameText)
+    } if (input === playerCharacter[`spell-2`].name) {
+        attackRolls(playerCharacter[`spell-2`], gameText)
+    } if (input === playerCharacter[`spell-3`].name) {
+        attackRolls(playerCharacter[`spell-3`], gameText)
+    } if (input === playerCharacter[`spell-4`].name) {
+        attackRolls(playerCharacter[`spell-4`], gameText)
+    } if (input === playerCharacter[`spell-5`].name) {
+        attackRolls(playerCharacter[`spell-5`], gameText)
+    }
 
-    } if (input === offHand) {
-
-    } if (input === spellOne) {}
 }
+//Run Damage
+const attackRolls = (playerAttack, gameText) => {
+
+        let attackDC = currentLocation.AC
+
+        let attackStat = playerAttack.stat
+
+        let attackRoll = Math.floor(Math.random() * 20) + (playerCharacter[`${attackStat}`] + 3)
+
+        let monAttackDC = playerCharacter.AC + playerCharacter.armor.damage
+
+        let monAttackRoll = Math.floor(Math.random() * 20) + (currentLocation.attackStat + 3)
+       
+        let damage = Math.floor(Math.random() * playerAttack.damage) + playerCharacter[`${playerAttack.stat}`]
+
+        if(damage <= 0) {
+            damage = 1
+        }
+
+        let monDamage = Math.floor(Math.random() * currentLocation.damage) + currentLocation.attackStat
+
+        console.log(`Mon Attack: ${monAttackRoll}, playerAC: ${monAttackDC}, mon Damage: ${monDamage}`)
+        
+        if (attackRoll >= attackDC) {
+
+                    
+
+                    currentLocation.Hp -= damage
+
+                    if (currentLocation.Hp > 0){
+
+                        if(monAttackRoll >= monAttackDC) {
+
+                            playerCharacter.currentHp -= monDamage
+
+                                if (playerCharacter.currentHp <= 0) {
+
+                                    alert(`You failed to kill ${currentLocation.name} and were slain!`)
+                                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                                     gameOver(gameText)
+
+                                } else {
+
+                                    gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
+                                    
+                                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                                }
+
+
+                        } else {
+
+                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back but missed!`
+
+                        }
+                    } else {
+
+                        if(currentLocation.item !== null){
+
+                            let monItem = items[(`${currentLocation.item}` - 1)]
+
+                            playerCharacter.gold += currentLocation.gold
+                            
+                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold} and the ${currentLocation.name} has dropped a ${monItem.name}. This is a ${monItem.type} item. Would you like to equip it?`
+                            
+                            leaveSwitch = true
+                            equipSwitch = true
+
+
+                        } else {
+
+                            playerCharacter.gold += currentLocation.gold
+
+                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold}. It's probably about time to Leave.`
+
+                            leaveSwitch = true
+                        }
+                    }
+                }
+        if (attackRoll < attackDC) {
+
+            if(monAttackRoll >= monAttackDC) {
+
+
+                playerCharacter.currentHp -= monDamage
+
+                    if (playerCharacter.currentHp <= 0) {
+
+                        alert(`You failed to kill ${currentLocation.name} and were slain!`)
+
+                        document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                         gameOver(gameText)
+
+                    } else {
+
+                        gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
+                        
+                        document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                    }
+
+
+            } else {
+
+                gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back but missed!`
+
+            }
+        }
+            }
 //Grabs information about the current Room and checks to make sure that the Input is relevant to the current Room, then runs the correct room function
 const runCurrentRoom = (input, room, gameText) => {
 
@@ -668,17 +819,26 @@ const runRoomChange = (input, room, gameText) => {
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
 const runItemSwap = (gameText) => {
+        itemType = items[`${currentLocation.item}` - 1].type
+        playerCharacter[`${itemType}`] = items[`${currentLocation.item}` - 1]
+        gameText.textContent = `You successfully equipped ${items[`${currentLocation.item}` - 1].name}, it's about time to Leave.`
 
-}
+    }
 //Handles testing the Input field between possible basic options to lead to the proper function to fire
 const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameForm) => {
     startGameForm.addEventListener("submit", e => {
         e.preventDefault()
         if (leaveSwitch === true) {
-            if (gameDialogueInput.value.toLowerCase() !== "leave") {
+        } if (gameDialogueInput.value.toLowerCase() === "equip") {
+            if(equipSwitch === true) {
+                runItemSwap(gameText)
+                equipSwitch = false
+            } else if (gameDialogueInput.value.toLowerCase() !== "leave") {
                 alert('You have exhausted this room, its time to move on.')
-            } else {
-                leaveSwitch = false;
+            }   else {
+                leaveSwitch = false
+                lookSwitch = true
+                console.log(leaveSwitch)
                 runNextRooms(gameText)
             }
         } else {
@@ -706,6 +866,24 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
                     runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
                 }
 
+            } if (gameDialogueInput.value.toLowerCase() === "attack") {
+
+                if (currentLocation.type === 'monster' || 'npc') {
+                    gameText.textContent = `${currentLocation.combat} Press Shift to look at your inventory.`
+                }
+            } if (gameDialogueInput.value.toLowerCase() === "potion") {
+                if (playerCharacter.potion > 0) {
+                    playerCharacter.potion--
+                    healthGain = Math.floor(Math.random() * 4) + 2
+                    playerCharacter.currentHp += healthGain
+                    if (playerCharacter.currentHp > playerCharacter.totalHp) {
+                        playerCharacter.currentHp = playerCharacter.totalHp
+                    }
+                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                    alert(`You regained ${healthGain} hit points!`)
+                } else {
+                    alert('You do not have any Potions to drink')
+                }
             }
             else {
 
@@ -771,23 +949,23 @@ async function search(argument) {
 //Currently nothing crazy, just a Game Over notice
 function gameOver(gameText) {
     gameText.textContent = `GAME OVER! You have died.`
-    document.getElementById('input-form').removeEventListener()
+    document.getElementById('input-form').innerHTML = ''
 }
 function characterInventory() {
     document.addEventListener("keyup", function (e) {
         if (e.key == "Shift") {
             document.getElementById("potions").textContent = `Potions: ${playerCharacter["potions"]}`
-            document.getElementById("main-hand").textContent = `Main-hand: ${playerCharacter["main-hand"]}`
-            document.getElementById("off-hand").textContent = `Off-hand: ${playerCharacter["off-hand"]}`
-            document.getElementById("armor").textContent = `Armor: ${playerCharacter["armor"]}`
-            document.getElementById("ranged").textContent = `Ranged: ${playerCharacter["ranged"]}`
+            document.getElementById("main-hand").textContent = `Main-hand: ${playerCharacter["main-hand"].name}`
+            document.getElementById("off-hand").textContent = `Off-hand: ${playerCharacter["off-hand"].name}`
+            document.getElementById("armor").textContent = `Armor: ${playerCharacter["armor"].name}`
+            document.getElementById("ranged").textContent = `Ranged: ${playerCharacter["ranged"].name}`
             document.getElementById("gold").textContent = `Gold: ${playerCharacter["gold"]}`
             document.getElementById("key").textContent = `Key: ${playerCharacter["key"]}`
-            document.getElementById("spell-1").textContent = `Spell 1: ${playerCharacter["spell-1"]}`
-            document.getElementById("spell-2").textContent = `Spell 2: ${playerCharacter["spell-2"]}`
-            document.getElementById("spell-3").textContent = `Spell 3: ${playerCharacter["spell-3"]}`
-            document.getElementById("spell-4").textContent = `Spell 4: ${playerCharacter["spell-4"]}`
-            document.getElementById("spell-5").textContent = `Spell 5: ${playerCharacter["spell-5"]}`
+            document.getElementById("spell-1").textContent = `Spell 1: ${playerCharacter["spell-1"].name}`
+            document.getElementById("spell-2").textContent = `Spell 2: ${playerCharacter["spell-2"].name}`
+            document.getElementById("spell-3").textContent = `Spell 3: ${playerCharacter["spell-3"].name}`
+            document.getElementById("spell-4").textContent = `Spell 4: ${playerCharacter["spell-4"].name}`
+            document.getElementById("spell-5").textContent = `Spell 5: ${playerCharacter["spell-5"].name}`
 
             let invOverlay = document.getElementById("inventory")
 
@@ -803,6 +981,3 @@ characterInventory()
 initCharMaker()
 charSearch()
 generateAvailableRooms()
-// "i" keydown event to display inventory of main hand, off hand, armor, spells, etc.
-
-//"Shift" keydown triggers a overlay displaying key player stats 
