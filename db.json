@@ -19,6 +19,8 @@
       "int-mod": 4,
       "cha-mod": 4,
       "potions": 0,
+      "gold": 0,
+      "key": 0,
       "main-hand": {
         "id": 5,
         "name": "punch",
@@ -44,8 +46,6 @@
         "damage": 2,
         "stat": "str-mod"
       },
-      "gold": 0,
-      "key": 0,
       "spell-1": {
         "id": 6,
         "name": "firebolt",
@@ -79,37 +79,6 @@
       }
     },
     {
-      "name": "Tonkotsu Ramen",
-      "currentHp": 10,
-      "totalHp": 10,
-      "AC": 12,
-      "str": 16,
-      "dex": 15,
-      "con": 14,
-      "wis": 8,
-      "int": 8,
-      "cha": 8,
-      "str-mod": 3,
-      "dex-mod": 2,
-      "con-mod": 2,
-      "wis-mod": -1,
-      "int-mod": -1,
-      "cha-mod": -1,
-      "potions": 0,
-      "main-hand": "empty",
-      "off-hand": "empty",
-      "armor": "empty",
-      "ranged": "empty",
-      "gold": 0,
-      "key": 0,
-      "spell-1": "firebolt",
-      "spell-2": "empty",
-      "spell-3": "empty",
-      "spell-4": "empty",
-      "spell-5": "empty",
-      "id": 2
-    },
-    {
       "name": "Failman",
       "currentHp": 1,
       "totalHp": 1,
@@ -127,6 +96,8 @@
       "int-mod": -5,
       "cha-mod": -5,
       "potions": -5,
+      "gold": 0,
+      "key": 0,
       "main-hand": {
         "id": 5,
         "name": "punch",
@@ -152,8 +123,6 @@
         "damage": 2,
         "stat": "str-mod"
       },
-      "gold": 0,
-      "key": 0,
       "spell-1": {
         "id": 6,
         "name": "firebolt",
@@ -205,17 +174,64 @@
       "int-mod": 50,
       "cha-mod": 50,
       "potions": 50,
-      "main-hand": "empty",
-      "off-hand": "empty",
-      "armor": "empty",
-      "ranged": "empty",
-      "gold": 999,
-      "key": 100,
-      "spell-1": "firebolt",
-      "spell-2": "empty",
-      "spell-3": "empty",
-      "spell-4": "empty",
-      "spell-5": "empty",
+      "gold": 0,
+      "key": 0,
+      "main-hand": {
+        "id": 5,
+        "name": "punch",
+        "type": "main-hand",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "off-hand": {
+        "name": "empty",
+        "type": "main-hand",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "armor": {
+        "name": "empty",
+        "type": "armor",
+        "damage": 0,
+        "stat": "AC-mod"
+      },
+      "ranged": {
+        "name": "empty",
+        "type": "ranged",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "spell-1": {
+        "id": 6,
+        "name": "firebolt",
+        "type": "spell-1",
+        "damage": 6,
+        "stat": "int-mod"
+      },
+      "spell-2": {
+        "name": "empty",
+        "type": "spell-2",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "spell-3": {
+        "name": "empty",
+        "type": "spell-3",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "spell-4": {
+        "name": "empty",
+        "type": "spell-4",
+        "damage": 2,
+        "stat": "str-mod"
+      },
+      "spell-5": {
+        "name": "empty",
+        "type": "spell-5",
+        "damage": 2,
+        "stat": "str-mod"
+      },
       "id": 3
     }
   ],
@@ -275,21 +291,23 @@
       "wis-mod": 3,
       "int-mod": 2,
       "cha-mod": 1,
-      "damage": 4,
       "item": 2,
-      "gold": true,
+      "gold": 10,
       "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
       "prelude": "you hear sounds of someone crying. It is a deep, low sob intermixed with light giggling. ",
-      "attack": "The woman swings wildly at you with a hidden dagger!",
-      "combat": "The woman stands before you, clearly in distress and terrified. How would you like to attack?",
-      "option-1": "calm",
-      "option-1-test": "wis",
-      "option-1-good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
-      "option-1-bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
-      "option-2": "seduce",
-      "option-2-test": "cha",
-      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
-      "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
+      "attack": "The woman swings wildly at you with a dagger!",
+      "combat": "The woman draws a hidden dagger and stands ready to fight back.",
+      "option1": "calm",
+      "option1Test": "wis-mod",
+      "option1Good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
+      "option1GoodRes": "item",
+      "option1Bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
+      "option2": "seduce",
+      "option2Test": "cha-mod",
+      "option2Good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
+      "option2GoodRes": "pot",
+      "option2Bad": "You disgust me. you need to Leave now before I make you regret your advances.",
+      "option2BadRes": ""
     },
     {
       "id": 2,
@@ -304,18 +322,22 @@
       "int-mod": 2,
       "cha-mod": 1,
       "item": 2,
-      "gold": true,
+      "gold": 10,
       "description": "A strange woman dressed in an ill fitted wedding dress stands before you. 'Are you here to try and marry me as well? The last person who tried just died! HAH! You'll be next if you aren't careful! I'll show you! I will! Don't test me!' How do you want to respond? You could Attack her, try to Calm her down, Leave her to her devices or Seduce her.",
       "prelude": "you hear sounds of someone crying. It is a deep, low sob intermixed with light giggling. ",
       "attack": "The woman swings wildly at you with a hidden dagger!",
-      "option-1": "calm",
-      "option-1-test": "wis",
-      "option-2": "seduce",
-      "option-2-test": "cha",
-      "option-1-good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
-      "option-1-bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
-      "option-2-good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
-      "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
+      "combat": "The woman draws a hidden dagger and stands ready to fight back.",
+      "option1": "calm",
+      "option1Test": "wis-mod",
+      "option1Good": "Thank you, I've calmed a little. This was my Mother's doing, you know. She always wished for me to marry. Now I'm a murderer. You were kind--I want you to have this.",
+      "option1GoodRes": "item",
+      "option1Bad": "You presume much about me! What could you even know! GET AWAY FROM ME!",
+      "option2": "seduce",
+      "option2Test": "cha-mod",
+      "option2Good": "My, what a charmer you are! Maybe romance isn't dead after all. Here, I want you to have this. Find me when we both get out of here, but Leave me for now. I need to clear my head.",
+      "option2GoodRes": "pot",
+      "option2Bad": "You disgust me. you need to Leave now before I make you regret your advances.",
+      "option2BadRes": ""
     }
   ],
   "Puzzle": [
@@ -323,25 +345,28 @@
       "id": 1,
       "type": "puzzle",
       "name": "Magic Mirror",
-      "gold": true,
-      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
+      "gold": 15,
+      "item": 8,
+      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray Sock, a half eaten can of baked Beans, and a rusty Horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
       "prelude": "you see something is sending back a reflection of yourself. ",
       "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
+      "hintFailure": "Looking in the mirror and at your suroundings yields no insights. You decide to give up on that and are left with guessing between the sock, Beans and Horseshoe. You can always just Leave.",
+      "hintTest": "wis-mod",
       "answer": "horseshoe",
-      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
-      "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
+      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!"
     },
     {
       "id": 2,
       "type": "puzzle",
       "name": "Magic Mirror",
-      "gold": true,
-      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to solve it by putting in what you think the answer is.",
+      "gold": 15,
+      "item": 8,
+      "description": "A massive mirror sits in the room, reflecting everything else around you. In the room, and reflected in the mirror, are three other items. A stray sock, a half eaten can of baked beans, and a rusty horseshoe. Something seems out of place. What would you like to do? You can Leave, look for a Hint, or try to guess.",
       "prelude": "you see something is sending back a reflection of yourself. ",
-      "hint": "Looking in the mirror, the horseshoe is reflecting incorrectly from the mirror!",
+      "hint": "Looking in the mirror, the Horseshoe is reflecting incorrectly from the mirror!",
+      "hintTest": "int-mod",
       "answer": "horseshoe",
-      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!",
-      "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
+      "correct": "After placing the horseshoe in the correct spot, something falls out of the mirror!"
     }
   ],
   "Treasure": [

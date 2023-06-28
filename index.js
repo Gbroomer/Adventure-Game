@@ -4,6 +4,8 @@ let fetchPlayer, playerCharacter, currentLocation, locationLeft = {}, locationRi
 let leaveSwitch = false
 let lookSwitch = false
 let equipSwitch = true
+let hintSwitch = false
+let guess = 0
 let left = []
 let right = []
 let forward = []
@@ -55,7 +57,6 @@ const treasureRoom = (inputOption, gameText) => {
     console.log(`skillCheck: ${skillCheck}`)
 
     if (skillCheck >= skillDC) {
-        console.log(typeof currentLocation[`option${inputOption}GoodRes`])
 
         if (currentLocation[`option${inputOption}GoodRes`] === "key") {
 
@@ -69,10 +70,127 @@ const treasureRoom = (inputOption, gameText) => {
 
         } else if (currentLocation[`option${inputOption}GoodRes`] === "item") {
 
-            //runItemSwap() 
+            `${currentLocation[`option${inputOption}Good`]} You found a ${items[`${currentLocation.item}` - 1].name}. This is a ${items[`${currentLocation.item}` - 1].type} item. Would you like to equip it?`
+
+            leaveSwitch = true
+            equipSwitch = true
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "pot") {
+
+            playerCharacter.potions++
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained a Potion!`
+
         } else {
+
             gameText.textContent = `${currentLocation[`option${inputOption}Good`]}`
-            console.log('missfired')
+        }
+        leaveSwitch = true
+
+    } else {
+
+        if (currentLocation[`option${inputOption}BadRes`] === "HP") {
+
+            const healthLoss = Math.floor(Math.random() * 3) + 1
+            playerCharacter.currentHp -= healthLoss
+
+            gameText.textContent = `${currentLocation[`option${inputOption}Bad`]} You lost ${healthLoss} Health.`
+
+            const healthBar = document.getElementById("health-number")
+            healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+
+        } else {
+            gameText.textContent = currentLocation[`option${inputOption}Bad`]
+        }
+        leaveSwitch = true;
+    }
+}
+const puzzleRoom = (input, gameText) => {
+
+    let skillDC = Math.floor(Math.random() * 11) + 8
+    console.log(`skillDC: ${skillDC}`)
+    let hintTest = currentLocation.hintTest
+    let skillTest = Math.floor(Math.random() * 20) + playerCharacter[`${hintTest}`]
+    console.log(`skillCheck: ${skillTest}`)
+
+    if (input === currentLocation.answer) {
+        playerCharacter.golt += currentLocation.gold
+
+        gameText.textContent = `${currentLocation.correct} You gain ${currentLocation.gold} and find a ${items[`${currentLocation.item}` - 1].name}. This is a ${items[`${currentLocation.item}` - 1].type} item. Would you like to equip it?`
+
+        leaveSwitch = true
+        equipSwitch = true
+
+    } else if (input === "hint") {
+
+        console.log('hint fired')
+
+        if (hintSwitch === false) {
+
+            if (skillTest >= skillDC) {
+
+                gameText.textContent = `${currentLocation.hint}`
+
+            } else {
+
+                gameText.textContent = currentLocation.hintFailure
+
+                hintSwitch = true;
+            }
+
+        }
+    } else {
+
+        if (guess >= 1) {
+
+            gameText.textContent = `After wracking your brain and doing your best, you just can't figure out the ${currentLocation.name}. You should just Leave.`
+
+
+        } else {
+            gameText.textContent = `That didn't seem to be it. You can try one more time. ${currentLocation.description}`
+            guess++
+
+            leaveSwitch === true
+        }
+    }
+}
+const npcRoom = (inputOption, gameText) => {
+
+    let skillDC = Math.floor(Math.random() * 11) + 5
+    console.log(`skillDC: ${skillDC}`)
+    let skillType = currentLocation[`option${inputOption}Test`]
+    let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[skillType] + 1)
+    console.log(`skillCheck: ${skillCheck}`)
+
+    if (skillCheck >= skillDC) {
+
+        if (currentLocation[`option${inputOption}GoodRes`] === "key") {
+
+            playerCharacter.key++
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained A Key!`
+
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "gold") {
+
+            playerCharacter.gold += currentLocation.gold
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained ${currentLocation.gold} gold!`
+
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "item") {
+
+            `${currentLocation[`option${inputOption}Good`]} You got a ${items[`${currentLocation.item}` - 1].name}. This is a ${items[`${currentLocation.item}` - 1].type} item. Would you like to equip it?`
+
+            equipSwitch = true
+
+        } else if (currentLocation[`option${inputOption}GoodRes`] === "pot") {
+
+            playerCharacter.potions++
+
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained a potion!`
+
+        } else {
+
+            gameText.textContent = `${currentLocation[`option${inputOption}Good`]}`
+
         }
 
     } else {
@@ -88,6 +206,7 @@ const treasureRoom = (inputOption, gameText) => {
             healthBar.textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
 
         } else {
+
             gameText.textContent = currentLocation[`option${inputOption}Bad`]
         }
     }
@@ -209,7 +328,7 @@ const generateCharacter = (pcInfo) => {
     gameMusic.play()
 
     console.log(playerCharacter[`main-hand`].name)
-    
+
 }
 //Takes an input and searches the database for a match
 async function fetchChar(input) {
@@ -460,22 +579,22 @@ const initCharMaker = () => {
                     "name": "punch",
                     "damage": 2,
                     "stat": "str-mod"
-                     },
+                },
                 "off-hand": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "armor": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "ranged": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "gold": 0,
                 "key": 0,
                 "spell-1": {
@@ -483,27 +602,27 @@ const initCharMaker = () => {
                     "name": "firebolt",
                     "damage": 6,
                     "stat": "int-mod"
-                  },
+                },
                 "spell-2": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "spell-3": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "spell-4": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  },
+                },
                 "spell-5": {
                     "name": "empty",
                     "damage": 2,
                     "stat": "str-mod"
-                  }
+                }
             }
             fetchChar(generatedCharacter.name.toLowerCase()).then(res => {
                 console.log(fetchPlayer)
@@ -541,8 +660,6 @@ const runNextRooms = (gameText) => {
     console.log(locationLeft)
     if (locationLeft === undefined) {
         locationLeftText = ""
-    } else if (left === []) {
-        locationLeftText = ""
     } else {
         locationLeftText = `There is a room to your Left. ${locationLeft.prelude}`
         left.splice(leftRNG, 1)
@@ -550,8 +667,6 @@ const runNextRooms = (gameText) => {
 
     locationRight = right[rightRNG]
     if (locationRight === undefined) {
-        locationRightText = ""
-    } else if (right === []) {
         locationRightText = ""
     } else {
         locationRightText = `There is a room to your Right. ${locationRight.prelude}`
@@ -561,8 +676,6 @@ const runNextRooms = (gameText) => {
 
     locationForward = forward[forwardRNG]
     if (locationForward === undefined) {
-        locationForwardText = ""
-    } else if (forward === []) {
         locationForwardText = ""
     } else {
         locationForwardText = `There is a room in Front of you. ${locationForward.prelude}`
@@ -628,115 +741,110 @@ const runCombat = (input, gameText) => {
     } if (input === playerCharacter[`spell-5`].name) {
         attackRolls(playerCharacter[`spell-5`], gameText)
     }
-
 }
 //Run Damage
 const attackRolls = (playerAttack, gameText) => {
 
-        let attackDC = currentLocation.AC
+    let attackDC = currentLocation.AC
 
-        let attackStat = playerAttack.stat
+    let attackStat = playerAttack.stat
 
-        let attackRoll = Math.floor(Math.random() * 20) + (playerCharacter[`${attackStat}`] + 3)
+    let attackRoll = Math.floor(Math.random() * 20) + (playerCharacter[`${attackStat}`] + 3)
 
-        let monAttackDC = playerCharacter.AC + playerCharacter.armor.damage
+    let monAttackDC = playerCharacter.AC + playerCharacter.armor.damage
 
-        let monAttackRoll = Math.floor(Math.random() * 20) + (currentLocation.attackStat + 3)
-       
-        let damage = Math.floor(Math.random() * playerAttack.damage) + playerCharacter[`${playerAttack.stat}`]
+    let monAttackRoll = Math.floor(Math.random() * 20) + (currentLocation.attackStat + 3)
 
-        if(damage <= 0) {
-            damage = 1
-        }
+    let damage = Math.floor(Math.random() * playerAttack.damage) + playerCharacter[`${playerAttack.stat}`]
 
-        let monDamage = Math.floor(Math.random() * currentLocation.damage) + currentLocation.attackStat
+    if (damage <= 0) {
+        damage = 1
+    }
 
-        console.log(`Mon Attack: ${monAttackRoll}, playerAC: ${monAttackDC}, mon Damage: ${monDamage}`)
-        
-        if (attackRoll >= attackDC) {
+    let monDamage = Math.floor(Math.random() * currentLocation.damage) + currentLocation.attackStat
 
-                    
+    console.log(`Mon Attack: ${monAttackRoll}, playerAC: ${monAttackDC}, mon Damage: ${monDamage}`)
 
-                    currentLocation.Hp -= damage
+    if (attackRoll >= attackDC) {
 
-                    if (currentLocation.Hp > 0){
+        currentLocation.Hp -= damage
 
-                        if(monAttackRoll >= monAttackDC) {
+        if (currentLocation.Hp > 0) {
 
-                            playerCharacter.currentHp -= monDamage
-
-                                if (playerCharacter.currentHp <= 0) {
-
-                                    alert(`You failed to kill ${currentLocation.name} and were slain!`)
-                                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-                                     gameOver(gameText)
-
-                                } else {
-
-                                    gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
-                                    
-                                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-                                }
-
-
-                        } else {
-
-                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back but missed!`
-
-                        }
-                    } else {
-
-                        if(currentLocation.item !== null){
-
-                            let monItem = items[(`${currentLocation.item}` - 1)]
-
-                            playerCharacter.gold += currentLocation.gold
-                            
-                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold} and the ${currentLocation.name} has dropped a ${monItem.name}. This is a ${monItem.type} item. Would you like to equip it?`
-                            
-                            leaveSwitch = true
-                            equipSwitch = true
-
-
-                        } else {
-
-                            playerCharacter.gold += currentLocation.gold
-
-                            gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold}. It's probably about time to Leave.`
-
-                            leaveSwitch = true
-                        }
-                    }
-                }
-        if (attackRoll < attackDC) {
-
-            if(monAttackRoll >= monAttackDC) {
-
+            if (monAttackRoll >= monAttackDC) {
 
                 playerCharacter.currentHp -= monDamage
 
-                    if (playerCharacter.currentHp <= 0) {
+                if (playerCharacter.currentHp <= 0) {
 
-                        alert(`You failed to kill ${currentLocation.name} and were slain!`)
+                    alert(`You failed to kill ${currentLocation.name} and were slain!`)
+                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                    gameOver(gameText)
 
-                        document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-                         gameOver(gameText)
+                } else {
 
-                    } else {
+                    gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
 
-                        gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
-                        
-                        document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-                    }
+                    document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                }
 
 
             } else {
 
-                gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back but missed!`
+                gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} attacked you back but missed!`
 
             }
-        }
+        } else {
+
+            if (currentLocation.item !== null) {
+
+                let monItem = items[(`${currentLocation.item}` - 1)]
+
+                playerCharacter.gold += currentLocation.gold
+
+                gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold} and the ${currentLocation.name} has dropped a ${monItem.name}. This is a ${monItem.type} item. Would you like to equip it?`
+
+                leaveSwitch = true
+                equipSwitch = true
+
+
+            } else {
+
+                playerCharacter.gold += currentLocation.gold
+
+                gameText.textContent = `You attacked ${currentLocation.name} and dealt ${damage} to it! The ${currentLocation.name} has been killed. You have gained ${currentLocation.gold}. It's probably about time to Leave.`
+
+                leaveSwitch = true
             }
+        }
+    }
+    if (attackRoll < attackDC) {
+
+        if (monAttackRoll >= monAttackDC) {
+
+            playerCharacter.currentHp -= monDamage
+
+            if (playerCharacter.currentHp <= 0) {
+
+                alert(`You failed to kill ${currentLocation.name} and were slain!`)
+
+                document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                gameOver(gameText)
+
+            } else {
+
+                gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back and dealt ${monDamage} to you!`
+
+                document.getElementById('health-number').textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+            }
+
+        } else {
+
+            gameText.textContent = `You attacked ${currentLocation.name} and missed it! The ${currentLocation.name} attacked you back but missed!`
+
+        }
+    }
+}
 //Grabs information about the current Room and checks to make sure that the Input is relevant to the current Room, then runs the correct room function
 const runCurrentRoom = (input, room, gameText) => {
 
@@ -744,7 +852,9 @@ const runCurrentRoom = (input, room, gameText) => {
 
     if (leaveSwitch === false) {
         if (currentLocation.type === "treasure") {
+
             let inputOption
+
             if (input === currentLocation.option1) {
                 inputOption = "1"
                 if (currentLocation.option1 === "key") {
@@ -784,20 +894,39 @@ const runCurrentRoom = (input, room, gameText) => {
                 }
             }
         } if (currentLocation.type === "monster") {
+
             runCombat(input, gameText)
         }
         if (currentLocation.type === "puzzle") {
 
+            puzzleRoom(input, gameText)
+
         } if (currentLocation.type === "npc") {
 
+            let inputOption
+
+            if (input === currentLocation.option1) {
+                inputOption = "1"
+                npcRoom(inputOption, gameText)
+            } if (input === currentLocation.option2) {
+                inputOption = "2"
+                npcRoom(inputOption, gameText)
+            } if (input === currentLocation.option3) {
+                inputOption = "3"
+                npcRoom(inputOption, gameText)
+            }
         }
+
+
     }
-
-
 }
 //Handles leaving a room and entering the next room
 const runRoomChange = (input, room, gameText) => {
-    lookSwitch = false;
+
+    lookSwitch = false
+    hintSwitch = false
+    guess = 0
+
     if (input === "left") {
         currentLocation = locationLeft
         room.textContent = currentLocation.name
@@ -810,7 +939,7 @@ const runRoomChange = (input, room, gameText) => {
         gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
         runCurrentRoom(input, room, gameText)
 
-    } if (input === "forward") {
+    } if (input === "front") {
         currentLocation = locationForward
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
@@ -819,39 +948,47 @@ const runRoomChange = (input, room, gameText) => {
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
 const runItemSwap = (gameText) => {
-        itemType = items[`${currentLocation.item}` - 1].type
-        playerCharacter[`${itemType}`] = items[`${currentLocation.item}` - 1]
-        gameText.textContent = `You successfully equipped ${items[`${currentLocation.item}` - 1].name}, it's about time to Leave.`
 
-    }
+    itemType = items[`${currentLocation.item}` - 1].type
+    playerCharacter[`${itemType}`] = items[`${currentLocation.item}` - 1]
+    gameText.textContent = `You successfully equipped ${items[`${currentLocation.item}` - 1].name}, it's about time to Leave.`
+
+}
 //Handles testing the Input field between possible basic options to lead to the proper function to fire
 const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameForm) => {
     startGameForm.addEventListener("submit", e => {
         e.preventDefault()
         if (leaveSwitch === true) {
-        } if (gameDialogueInput.value.toLowerCase() === "equip") {
-            if(equipSwitch === true) {
-                runItemSwap(gameText)
-                equipSwitch = false
-            } else if (gameDialogueInput.value.toLowerCase() !== "leave") {
-                alert('You have exhausted this room, its time to move on.')
-            }   else {
+            if (gameDialogueInput.value.toLowerCase() === "equip") {
+
+                if (equipSwitch === true) {
+
+                    runItemSwap(gameText)
+                    equipSwitch = false
+
+                } else if (gameDialogueInput.value.toLowerCase() !== "leave") {
+
+                    alert('You have exhausted this room, its time to move on.')
+                }
+
+            } else if (gameDialogueInput.value.toLowerCase() === "leave") {
+
                 leaveSwitch = false
-                lookSwitch = true
-                console.log(leaveSwitch)
                 runNextRooms(gameText)
+
             }
+
         } else {
 
             if (gameDialogueInput.value.toLowerCase() === "leave") {
 
                 if (currentLocation.type === 'monster') {
-                    runCombat(gameDialogueInput.value.toLowerCase(), gameText) 
-                }else {
+                    runCombat(gameDialogueInput.value.toLowerCase(), gameText)
+                } else {
                     runNextRooms(gameText)
                 }
 
-            } if (lookSwitch === true) {
+            } else if (lookSwitch === true) {
 
                 if (gameDialogueInput.value.toLowerCase() === "left") {
 
@@ -866,12 +1003,12 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
                     runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
                 }
 
-            } if (gameDialogueInput.value.toLowerCase() === "attack") {
+            } else if (gameDialogueInput.value.toLowerCase() === "attack") {
 
                 if (currentLocation.type === 'monster' || 'npc') {
                     gameText.textContent = `${currentLocation.combat} Press Shift to look at your inventory.`
                 }
-            } if (gameDialogueInput.value.toLowerCase() === "potion") {
+            } else if (gameDialogueInput.value.toLowerCase() === "potion") {
                 if (playerCharacter.potion > 0) {
                     playerCharacter.potion--
                     healthGain = Math.floor(Math.random() * 4) + 2
@@ -886,7 +1023,6 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
                 }
             }
             else {
-
                 runCurrentRoom(gameDialogueInput.value.toLowerCase(), room, gameText)
             }
         }
