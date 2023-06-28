@@ -143,13 +143,14 @@ const puzzleRoom = (input, gameText) => {
         if (guess >= 1) {
 
             gameText.textContent = `After wracking your brain and doing your best, you just can't figure out the ${currentLocation.name}. You should just Leave.`
+            leaveSwitch === true
 
 
         } else {
+            
             gameText.textContent = `That didn't seem to be it. You can try one more time. ${currentLocation.description}`
             guess++
 
-            leaveSwitch === true
         }
     }
 }
@@ -163,6 +164,7 @@ const npcRoom = (inputOption, gameText) => {
 
     if (skillCheck >= skillDC) {
 
+        console.log('test')
         if (currentLocation[`option${inputOption}GoodRes`] === "key") {
 
             playerCharacter.key++
@@ -177,12 +179,12 @@ const npcRoom = (inputOption, gameText) => {
 
         } else if (currentLocation[`option${inputOption}GoodRes`] === "item") {
 
-            `${currentLocation[`option${inputOption}Good`]} You got a ${items[`${currentLocation.item}` - 1].name}. This is a ${items[`${currentLocation.item}` - 1].type} item. Would you like to equip it?`
+           gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You got a ${items[`${currentLocation.item}` - 1].name}. This is a ${items[`${currentLocation.item}` - 1].type} item. Would you like to equip it?`
 
             equipSwitch = true
 
         } else if (currentLocation[`option${inputOption}GoodRes`] === "pot") {
-
+            console.log('test')
             playerCharacter.potions++
 
             gameText.textContent = `${currentLocation[`option${inputOption}Good`]} You gained a potion!`
@@ -678,12 +680,12 @@ const runNextRooms = (gameText) => {
     if (locationForward === undefined) {
         locationForwardText = ""
     } else {
-        locationForwardText = `There is a room in Front of you. ${locationForward.prelude}`
+        locationForwardText = `Looking Forward there is another room. ${locationForward.prelude}`
         forward.splice(forwardRNG, 1)
     }
 
-    // console.log(left, right, forward)
-    // console.log(locationLeftText, locationRightText, locationForwardText)
+    console.log(locationLeft, locationRight, locationForward)
+    console.log(locationLeftText, locationRightText, locationForwardText)
 
     lookSwitch = true;
 
@@ -911,9 +913,20 @@ const runCurrentRoom = (input, room, gameText) => {
             } if (input === currentLocation.option2) {
                 inputOption = "2"
                 npcRoom(inputOption, gameText)
-            } if (input === currentLocation.option3) {
-                inputOption = "3"
-                npcRoom(inputOption, gameText)
+            } if (input === playerCharacter[`main-hand`].name) {
+                attackRolls(playerCharacter[`main-hand`], gameText)
+            } if (input === playerCharacter[`off-hand`].name) {
+                attackRolls(playerCharacter[`off-hand`], gameText)
+            } if (input === playerCharacter[`spell-1`].name) {
+                attackRolls(playerCharacter[`spell-1`], gameText)
+            } if (input === playerCharacter[`spell-2`].name) {
+                attackRolls(playerCharacter[`spell-2`], gameText)
+            } if (input === playerCharacter[`spell-3`].name) {
+                attackRolls(playerCharacter[`spell-3`], gameText)
+            } if (input === playerCharacter[`spell-4`].name) {
+                attackRolls(playerCharacter[`spell-4`], gameText)
+            } if (input === playerCharacter[`spell-5`].name) {
+                attackRolls(playerCharacter[`spell-5`], gameText)
             }
         }
 
@@ -939,7 +952,8 @@ const runRoomChange = (input, room, gameText) => {
         gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
         runCurrentRoom(input, room, gameText)
 
-    } if (input === "front") {
+    } if (input === "forward") {
+        console.log(locationForward)
         currentLocation = locationForward
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
@@ -1038,7 +1052,7 @@ function startGameFromCharacterSubmission() {
     document.body.appendChild(gameScreen)
 
 
-    search("http://localhost:3000/Monsters/1").then((data) => {
+    search("http://localhost:3000/NPC/1").then((data) => {
 
         currentLocation = data
 
