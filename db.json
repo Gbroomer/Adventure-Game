@@ -19,7 +19,7 @@
       "int-mod": 4,
       "cha-mod": 4,
       "potions": 0,
-      "main-hand": "empty",
+      "main-hand": "scimitar",
       "off-hand": "empty",
       "armor": "empty",
       "ranged": "empty",
@@ -30,9 +30,101 @@
       "spell-3": "empty",
       "spell-4": "empty",
       "spell-5": "empty"
+    },
+    {
+      "name": "Tonkotsu Ramen",
+      "currentHp": 10,
+      "totalHp": 10,
+      "AC": 12,
+      "str": 16,
+      "dex": 15,
+      "con": 14,
+      "wis": 8,
+      "int": 8,
+      "cha": 8,
+      "str-mod": 3,
+      "dex-mod": 2,
+      "con-mod": 2,
+      "wis-mod": -1,
+      "int-mod": -1,
+      "cha-mod": -1,
+      "potions": 0,
+      "main-hand": "empty",
+      "off-hand": "empty",
+      "armor": "empty",
+      "ranged": "empty",
+      "gold": 0,
+      "key": 0,
+      "spell-1": "firebolt",
+      "spell-2": "empty",
+      "spell-3": "empty",
+      "spell-4": "empty",
+      "spell-5": "empty",
+      "id": 2
+    },
+    {
+      "name": "Failman",
+      "currentHp": 1,
+      "totalHp": 1,
+      "AC": 1,
+      "str": 1,
+      "dex": 1,
+      "con": 1,
+      "wis": 1,
+      "int": 1,
+      "cha": 1,
+      "str-mod": -5,
+      "dex-mod": -5,
+      "con-mod": -5,
+      "wis-mod": -5,
+      "int-mod": -5,
+      "cha-mod": -5,
+      "potions": -5,
+      "main-hand": "empty",
+      "off-hand": "empty",
+      "armor": "empty",
+      "ranged": "empty",
+      "gold": 0,
+      "key": 0,
+      "spell-1": "firebolt",
+      "spell-2": "empty",
+      "spell-3": "empty",
+      "spell-4": "empty",
+      "spell-5": "empty",
+      "id": 3
+    },
+    {
+      "name": "Winman",
+      "currentHp": 50,
+      "totalHp": 50,
+      "AC": 100,
+      "str": 99,
+      "dex": 99,
+      "con": 99,
+      "wis": 99,
+      "int": 99,
+      "cha": 99,
+      "str-mod": 50,
+      "dex-mod": 50,
+      "con-mod": 50,
+      "wis-mod": 50,
+      "int-mod": 50,
+      "cha-mod": 50,
+      "potions": 50 ,
+      "main-hand": "empty",
+      "off-hand": "empty",
+      "armor": "empty",
+      "ranged": "empty",
+      "gold": 999,
+      "key": 100,
+      "spell-1": "firebolt",
+      "spell-2": "empty",
+      "spell-3": "empty",
+      "spell-4": "empty",
+      "spell-5": "empty",
+      "id": 3
     }
   ],
-
   "Monsters": [
     {
       "id": 1,
@@ -73,7 +165,6 @@
       "attack": "The Zombie charges you, attempting to slam and bite you with what remains of its jaw."
     }
   ],
-
   "NPC": [
     {
       "id": 1,
@@ -128,9 +219,7 @@
       "option-2-bad": "You disgust me. you need to Leave now before I make you regret your advances."
     }
   ],
-  
   "Puzzle": [
-
     {
       "id": 1,
       "type": "puzzle",
@@ -156,7 +245,6 @@
       "incorrect": "Unfortunately you can't seem to figure out what's going on with this mirror and give up."
     }
   ],
-
   "Treasure": [
     {
       "id": 1,
@@ -166,20 +254,19 @@
       "gold": 25,
       "description": "A large, very heavy trunk sits in front of you. There is a lock on it. What would you like to do? You could Bash it open, Leave it alone, try to Pick the lock, or use a Key if you have one.",
       "prelude": "the room seems oddly quiet. There is no odor or sights that immediately catch your attention. ",
-      "option-1": "bash",
-      "option-1-test": "str",
-      "option-2": "pick",
-      "option-2-test": "dex",
-      "option-3": "key",
-      "option-3-test": "key",
-      "option-1-good": "You manage to successfully destroy the lock, recieving the truck's content.",
-      "option-1-bad": "You completely fail to destroy the lock, and now you've hurt yourself.",
-      "option-2-good": "You manage to finagle the lock open, recieving the truck's content.",
-      "option-2-bad": "After trying for several minutes, you fail to pick the lock.",
-      "option-3-good": "The key fits! you recieve the truck's content.",
-      "option-3-bad": "This should not fire."
+      "option1": "bash",
+      "option1test": "str",
+      "option1good": "You manage to successfully destroy the lock, recieving the truck's content.",
+      "option1bad": "You completely fail to destroy the lock, and now you've hurt yourself.",
+      "option2": "pick",
+      "option2test": "dex",
+      "option2good": "You manage to finagle the lock open, recieving the truck's content.",
+      "option2bad": "After trying for several minutes, you fail to pick the lock.",
+      "option3": "key",
+      "option3test": "key",
+      "option3good": "The key fits! you recieve the truck's content.",
+      "option3bad": "This should not fire."
     },
-
     {
       "id": 2,
       "type": "treasure",
@@ -208,32 +295,39 @@
       "option3BadRes": "hp"
     }
   ],
-
   "Items": [
     {
       "id": 1,
-      "name": "Scimitar",
+      "name": "scimitar",
       "modifier": 1,
-      "stat": "str"
+      "stat": "str-mod"
     },
     {
-    "id": 2,
-    "name": "Dagger",
-    "modifier": 1,
-    "stat": "dex"
+      "id": 2,
+      "name": "dagger",
+      "modifier": 1,
+      "stat": "dex-mod"
     },
     {
       "id": 3,
-      "name": "Leather Armor",
+      "name": "leather Armor",
       "modifier": 2,
       "stat": "AC"
     },
     {
       "id": 4,
-      "name": "key",
-      "modifier": 1,
-      "stat": "key"
+      "name": "longsword",
+      "modifier": 2,
+      "stat": "str-mod"
+    },
+    {
+      "id": 5,
+      "name": "punch",
+      "modifier": 0,
+      "stat": "str-mod"
+    },
+    {
+
     }
   ]
-
 }

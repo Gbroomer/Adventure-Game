@@ -6,6 +6,7 @@ let lookSwitch = false
 let left = []
 let right = []
 let forward = []
+let items = []
 
 //Handles the searchbar functionality
 const charSearch = () => {
@@ -96,19 +97,19 @@ async function generateAvailableRooms() {
 
     const monstersRes = await fetch('http://localhost:3000/Monsters')
     monsters = await monstersRes.json()
-    console.log(monsters)
 
     const npcRes = await fetch(`http://localhost:3000/NPC`)
     npc = await npcRes.json()
-    console.log(npc)
 
     const puzzleRes = await fetch('http://localhost:3000/Puzzle')
     puzzle = await puzzleRes.json()
-    console.log(puzzle)
 
     const treasureRes = await fetch('http://localhost:3000/Treasure')
     treasure = await treasureRes.json()
-    console.log(treasure)
+
+    const itemRes = await fetch('http://localhost:3000/Items')
+    itemCount = await itemRes.json()
+
 
     monsters.forEach(e => {
         console.log(e)
@@ -154,7 +155,11 @@ async function generateAvailableRooms() {
             forward.push(e)
         }
     })
-    console.log(left, forward, right)
+
+    itemCount.forEach(e => {
+        items.push(e)
+    })
+    console.log(left, forward, right, items)
 
 }
 //Handles saving a newly created character to the JSON
@@ -198,6 +203,10 @@ const generateCharacter = (pcInfo) => {
     const charCha = document.getElementById("cha")
     charCha.textContent = `CHA: ${playerCharacter.cha}`
 
+    const gameMusic = document.getElementById("dungeon-music")
+    gameMusic.volume = 0.5
+    gameMusic.play()
+    
 }
 //Takes an input and searches the database for a match
 async function fetchChar(input) {
@@ -528,12 +537,54 @@ const runNextRooms = (gameText) => {
 
 }
 //Runs the Combat Scenario (currently not functional)
-const runCombat = (gameDialogueInput, gameText, room, gameScreen, startGameForm) => {
-    startGameForm.removeEventListener()
-    gameText.textContent = 
-    startGameForm.addEventListener("submit", e => {
+const runCombat = (input, gameText) => {
+    const mainHand = playerCharacter[`main-hand`]
+    const offHand = playerCharacter[`off-hand`]
+    const spellOne = playerCharacter[`spell-1`]
+    const spellTwo = playerCharacter[`spell-2`]
+    const spellThree = playerCharacter[`spell-3`]
+    const spellFour = playerCharacter[`spell-4`]
+    const spellFive = playerCharacter[`spell-5`]
+    let statType, dice
+    if (input === "leave") {
+        let skillDC = Math.floor(Math.random() * 11) + 5
+        console.log(`skillDC: ${skillDC}`)
+        let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[`dex-mod`] + 1)
+        console.log(`skillCheck: ${skillCheck}`)
+        let damageType
+        if (skillCheck > skillDC) {
 
-    })
+            runInputBox(input, gameText, room, gameScreen, startGameForm)
+            runNextRooms(gameText)
+
+        } else {
+
+            if (currentLocation[`dex-mod`] > currentLocation[`str-mod`]) {
+                damageType = currentLocation[`dex-mod`]
+            } else {
+                damageType = currentLocation[`str-mod`]
+            }
+
+            let attackDC = playerCharacter.AC
+            console.log(`skillDC: ${attackDC}`)
+            let attackRoll = Math.floor(Math.random() * 20) + (damageType + 1)
+            console.log(`skillCheck: ${attackRoll}`)
+
+            if (attackRoll > attackDC) {
+                let damage = Math.floor(Math.random() * 5) + damageType
+                playerCharacter.currentHp -= damage
+                gameText.textContent = `You failed to get away! ${currentLocation.attack} You take ${damage} damage! ${currentLocation.combat}`
+                document.getElementById("health-number").textContent = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
+                if (playerCharacter.currentHp <= 0) {
+                    gameOver()
+                }
+            }
+        }
+    } if (input === mainHand) {
+
+    } if (input === offHand) {
+
+    } if (input === spellOne) {}
 }
 //Grabs information about the current Room and checks to make sure that the Input is relevant to the current Room, then runs the correct room function
 const runCurrentRoom = (input, room, gameText) => {
@@ -581,6 +632,8 @@ const runCurrentRoom = (input, room, gameText) => {
                     treasureRoom(inputOption, gameText)
                 }
             }
+        } if (currentLocation.type === "monster") {
+            runCombat(input, gameText)
         }
         if (currentLocation.type === "puzzle") {
 
@@ -598,17 +651,19 @@ const runRoomChange = (input, room, gameText) => {
         currentLocation = locationLeft
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head left. ${currentLocation.description}`
-
+        runCurrentRoom(input, room, gameText)
 
     } if (input === "right") {
         currentLocation = locationRight
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head right. ${currentLocation.description}`
+        runCurrentRoom(input, room, gameText)
 
     } if (input === "forward") {
         currentLocation = locationForward
         room.textContent = currentLocation.name
         gameText.textContent = `You leave the room you're in and head forward. ${currentLocation.description}`
+        runCurrentRoom(input, room, gameText)
     }
 }
 //Handles prompts to the player in regards to what items they would like to have or not have equipped. (currently not functional)
@@ -631,44 +686,11 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
             if (gameDialogueInput.value.toLowerCase() === "leave") {
 
                 if (currentLocation.type === 'monster') {
-
-                    let skillDC = Math.floor(Math.random() * 11) + 5
-                    console.log(`skillDC: ${skillDC}`)
-                    let skillCheck = Math.floor(Math.random() * 20) + (playerCharacter[`dex-mod`] + 1)
-                    console.log(`skillCheck: ${skillCheck}`)
-
-                    if (skillCheck > skillDC) {
-                        runNextRooms(gameText)
-                    } else {
-                        if (currentLocation[`dex-mod`] > currentLocation[`str-mod`]) {
-                            let damageType = currentLocation[`dex-mod`]
-                        } else {
-                            let damageType = currentLocation[`str-mod`]
-                        }
-
-                        let attackDC = player.AC
-                        console.log(`skillDC: ${attackDC}`)
-                        let attackRoll = Math.floor(Math.random() * 20) + (damageType + 1)
-                        console.log(`skillCheck: ${attackRoll}`)
-
-                        if (attackRoll > attackDC) {
-                            let damage = Math.floor(Math.random() * 5) + damageType
-                            playerCharacter.currentHp -= damage
-                            gameText.textContent = `You failed to get away! ${currentLocation.attack} You take ${damage} damage!`
-                            document.getElementById("health-number").textContent  = `${playerCharacter.currentHp}/${playerCharacter.totalHp}`
-                            if(playerCharacter.currentHp = 0) {
-                                gameOver()
-                            }
-                        }
-
-
-                    }
+                    runCombat(gameDialogueInput.value.toLowerCase(), gameText) 
+                }else {
+                    runNextRooms(gameText)
                 }
-                runNextRooms(gameText)
 
-            } if (gameDialogueInput.value.toLowerCase() === "attack") {
-
-                runCombat(gameDialogueInput, gameText, room, gameScreen, startGameForm)
             } if (lookSwitch === true) {
 
                 if (gameDialogueInput.value.toLowerCase() === "left") {
@@ -684,7 +706,8 @@ const runInputBox = (gameDialogueInput, room, gameText, gameScreen, startGameFor
                     runRoomChange(gameDialogueInput.value.toLowerCase(), room, gameText)
                 }
 
-            } else {
+            }
+            else {
 
                 runCurrentRoom(gameDialogueInput.value.toLowerCase(), room, gameText)
             }
@@ -701,7 +724,7 @@ function startGameFromCharacterSubmission() {
     document.body.appendChild(gameScreen)
 
 
-    search("http://localhost:3000/Treasure/2").then((data) => {
+    search("http://localhost:3000/Monsters/1").then((data) => {
 
         currentLocation = data
 
@@ -751,7 +774,7 @@ function gameOver(gameText) {
     document.getElementById('input-form').removeEventListener()
 }
 function characterInventory() {
-    document.addEventListener("keydown", function (e) { 
+    document.addEventListener("keyup", function (e) {
         if (e.key == "Shift") {
             document.getElementById("potions").textContent = `Potions: ${playerCharacter["potions"]}`
             document.getElementById("main-hand").textContent = `Main-hand: ${playerCharacter["main-hand"]}`
@@ -765,9 +788,9 @@ function characterInventory() {
             document.getElementById("spell-3").textContent = `Spell 3: ${playerCharacter["spell-3"]}`
             document.getElementById("spell-4").textContent = `Spell 4: ${playerCharacter["spell-4"]}`
             document.getElementById("spell-5").textContent = `Spell 5: ${playerCharacter["spell-5"]}`
-    
+
             let invOverlay = document.getElementById("inventory")
-            
+
             if (invOverlay.style.display == 'none') {
                 invOverlay.style.display = 'block';
             } else {
@@ -780,6 +803,6 @@ characterInventory()
 initCharMaker()
 charSearch()
 generateAvailableRooms()
-// "i" keydown event to display inventory of main hand, off hand, armor, spells, etc. 
+// "i" keydown event to display inventory of main hand, off hand, armor, spells, etc.
 
 //"Shift" keydown triggers a overlay displaying key player stats 
